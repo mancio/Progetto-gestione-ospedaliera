@@ -41,10 +41,9 @@ public class Prenota extends javax.swing.JFrame {
         label1.setName("");
         label1.setText("PRENOTA LA VISITA");
 
-        textArea1.setText("DATE......");
+        textArea1.setText("DATE DISPONIBILI......");
 
         jButton1.setText("INDIETRO");
-        jButton1.setActionCommand("INDIETRO");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
