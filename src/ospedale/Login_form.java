@@ -170,9 +170,9 @@ public class Login_form extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         String value1=jTextField1.getText();
         char[] input = jPasswordField1.getPassword();
-        char[] correctPassword = { 'p','a','z','z','o' };
+        char[] correctPassword = { '1','2','3','4','5' };
         
-         if (value1.equals("merda") && (Arrays.equals (input, correctPassword))) {
+         if (value1.equals("pippo") && (Arrays.equals (input, correctPassword))) {
            
             Paziente page=new Paziente();
             page.setVisible(true);
