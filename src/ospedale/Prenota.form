@@ -81,7 +81,7 @@
     </Component>
     <Component class="java.awt.TextArea" name="textArea1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="DATE DISPONIBILI......"/>
+        <Property name="text" type="java.lang.String" value="DATE DISPONIBILI......."/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="jButton1">
