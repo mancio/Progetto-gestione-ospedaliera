@@ -4,6 +4,11 @@
  */
 package ospedale;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author mancio
@@ -51,6 +56,11 @@ public class Login_paziente extends javax.swing.JFrame {
         label3.setText("PASSWORD");
 
         jButton1.setText("ENTRA");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("INDIETRO");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -127,6 +137,44 @@ public class Login_paziente extends javax.swing.JFrame {
         this.setVisible(false);
 
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        Connection con = null;
+        
+        
+        
+        
+        String url = "jdbc:mysql://localhost:3306/ospedale";
+        
+        String user_paz=jTextField1.getText();
+        char[] pass_paz = jPasswordField1.getPassword();
+        
+        
+        
+        
+        /* cast di array di char a stringa
+         * (getpassword() da un char ) mentre al drivermanager di sql serve
+         * una stringa
+         */
+        String password_am = new String(pass_paz);
+        
+        
+       try{
+        
+           Class.forName("com.mysql.jdbc.Driver");
+           con = DriverManager.getConnection (url, user_paz, password_am);
+           
+           Paziente page = new Paziente();
+           page.setVisible(true);
+           this.setVisible(false);
+           
+       }catch(ClassNotFoundException | SQLException e){
+           
+           JOptionPane.showMessageDialog(null,"Incorrect login or password or server down","Error",JOptionPane.ERROR_MESSAGE);
+           jTextField1.setText("");
+           jPasswordField1.setText("");
+       }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
