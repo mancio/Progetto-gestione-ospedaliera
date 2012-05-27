@@ -4,6 +4,9 @@
  */
 package ospedale;
 
+
+
+import java.sql.*;
 import java.util.Arrays;
 import javax.swing.JOptionPane;
 
@@ -168,21 +171,45 @@ public class Login_form extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        String value1=jTextField1.getText();
-        char[] input = jPasswordField1.getPassword();
-        char[] correctPassword = { '1','2','3','4','5' };
         
-         if (value1.equals("pippo") && (Arrays.equals (input, correctPassword))) {
+        Connection con = null;
+        
+        
+        
+        
+        String url = "jdbc:mysql://localhost:3306/ospedale";
+        
+        String userName=jTextField3.getText();
+        char[] pass = jPasswordField2.getPassword();
+        
+        
+        /* cast di array di char a stringa
+         * (getpassword() da un char ) mentre al drivermanager di sql serve
+         * una stringa
+         */
+        String password = new String(pass);
+        
+       try{
+        
+           Class.forName("com.mysql.jdbc.Driver");
+           con = DriverManager.getConnection (url, userName, password);
            
-            Paziente page=new Paziente();
-            page.setVisible(true);
-            this.setVisible(false);
-         }
-         else{
-            JOptionPane.showMessageDialog(null,"Incorrect login or password","Error",JOptionPane.ERROR_MESSAGE);
-            jTextField1.setText("");
-            jPasswordField1.setText("");
-         } 
+           Amministratore page = new Amministratore();
+           page.setVisible(true);
+           this.setVisible(false);
+           
+       }catch(ClassNotFoundException | SQLException e){
+           
+           JOptionPane.showMessageDialog(null,"Incorrect login or password or server down","Error",JOptionPane.ERROR_MESSAGE);
+           jTextField1.setText("");
+           jPasswordField1.setText("");
+       }
+        
+         
+    
+
+
+        
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
