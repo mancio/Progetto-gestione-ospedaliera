@@ -41,7 +41,7 @@ public class Login_amministratore extends javax.swing.JFrame {
         label1 = new java.awt.Label();
         jLabel1 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -55,11 +55,11 @@ public class Login_amministratore extends javax.swing.JFrame {
 
         label6.setAlignment(java.awt.Label.CENTER);
         label6.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        label6.setText("LOG IN AMINISTRATORI");
+        label6.setText("LOG IN ");
 
         label1.setAlignment(java.awt.Label.CENTER);
         label1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        label1.setText("BENVENUTO AMMINISTRATORE");
+        label1.setText("BENVENUTO");
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ospedale/logo.jpeg"))); // NOI18N
 
@@ -70,12 +70,7 @@ public class Login_amministratore extends javax.swing.JFrame {
             }
         });
 
-        jButton3.setText("INDIETRO");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
+        jButton1.setText("Registrati");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -99,7 +94,8 @@ public class Login_amministratore extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jButton2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton3))
+                                .addComponent(jButton1)
+                                .addGap(72, 72, 72))
                             .addComponent(jPasswordField2)
                             .addComponent(jTextField3))))
                 .addContainerGap())
@@ -127,7 +123,7 @@ public class Login_amministratore extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2)
-                    .addComponent(jButton3))
+                    .addComponent(jButton1))
                 .addGap(29, 29, 29))
         );
 
@@ -179,12 +175,6 @@ public class Login_amministratore extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        Login_form Login_form = new Login_form();
-        Login_form.setVisible(true);
-        this.setVisible(false);
-    }//GEN-LAST:event_jButton3ActionPerformed
-
     /**
      * @param args the command line arguments
      */
@@ -227,8 +217,8 @@ public class Login_amministratore extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPasswordField jPasswordField2;
     private javax.swing.JTextField jTextField3;

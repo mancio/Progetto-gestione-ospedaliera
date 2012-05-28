@@ -45,7 +45,6 @@ public class Registrazione extends javax.swing.JFrame {
         jTextField6 = new javax.swing.JTextField();
         jTextField7 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -54,7 +53,7 @@ public class Registrazione extends javax.swing.JFrame {
 
         label1.setAlignment(java.awt.Label.CENTER);
         label1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        label1.setText("REGISTRAZIONE: COMPILA I SEGUENTI CAMPI");
+        label1.setText("COMPILARE I SEGUENTI CAMPI");
 
         label2.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         label2.setText("NOME:");
@@ -63,8 +62,8 @@ public class Registrazione extends javax.swing.JFrame {
         label3.setText("COGNOME:");
 
         label4.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
-        label4.setName("ID(4 CHAR):");
-        label4.setText("ID (4 CHAR):");
+        label4.setName("CODICE FISCALE");
+        label4.setText("CODICE FISCALE:");
 
         label5.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         label5.setText("PASSWORD:");
@@ -76,7 +75,7 @@ public class Registrazione extends javax.swing.JFrame {
         label7.setText("INDIRIZZO EMAIL:");
 
         label8.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
-        label8.setText("INDIRIZZO DI RESIDEENZA:");
+        label8.setText("INDIRIZZO DI RESIDENZA:");
 
         label9.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         label9.setText("NUMERO TELEFONICO:");
@@ -98,8 +97,6 @@ public class Registrazione extends javax.swing.JFrame {
         jTextField7.setText("jTextField4");
 
         jButton1.setText("REGISTRATI");
-
-        jButton2.setText("AZZERA I CAMPI");
 
         jButton3.setText("INDIETRO");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -144,7 +141,7 @@ public class Registrazione extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(label8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(label9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(4, 4, 4)
+                                .addGap(12, 12, 12)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jTextField6)
                                     .addComponent(jTextField7))))
@@ -152,9 +149,7 @@ public class Registrazione extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jButton1)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton2)
-                        .addGap(18, 18, 18)
+                        .addGap(180, 180, 180)
                         .addComponent(jButton3)
                         .addGap(52, 52, 52))))
         );
@@ -205,7 +200,6 @@ public class Registrazione extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton3)
-                    .addComponent(jButton2)
                     .addComponent(jButton1))
                 .addContainerGap())
         );
@@ -262,7 +256,6 @@ public class Registrazione extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPasswordField jPasswordField1;
