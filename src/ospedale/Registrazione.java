@@ -283,8 +283,8 @@ public class Registrazione extends javax.swing.JFrame {
                     if (Tel.isEmpty()){
                         jLabel7.setText("Il campo è obbligatorio");
                     }
-                    else if (phoneSyntaxCheck(Tel)==false){
-                        jLabel7.setText("Il valore immesso non è valido");
+                    else if ((phoneSyntaxCheck(Tel)==false) || (Tel.length() < 8)){
+                        jLabel7.setText("Il valore immesso non è valido, deve contenere almeno 8 cifre");
                     }
                 /*da controllare che siano solo numeri*/
                 String Res= jTextField7.getText();
