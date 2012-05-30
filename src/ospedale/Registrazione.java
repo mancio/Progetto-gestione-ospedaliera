@@ -273,18 +273,38 @@ public class Registrazione extends javax.swing.JFrame {
                 char[] Passwd= jPasswordField1.getPassword();
                 if (Passwd.length<8){jLabel4.setText("Il valore immesso non è valido");}
                 String Email= jTextField5.getText();
-                    if (mailSyntaxCheck(Email)==false){
-                        jLabel5.setText("Il valore immesso non è valido");
+                    if(Email.isEmpty()==false){
+                        if (mailSyntaxCheck(Email)==false){
+                            jLabel5.setText("Il valore immesso non è valido");
+                        }
                     }
                 /*da mettere vincolo sintattico*/
                 String Tel= jTextField6.getText();
+                    if (Tel.isEmpty()){
+                        jLabel7.setText("Il campo è obbligatorio");
+                    }
+                    else if (phoneSyntaxCheck(Tel)==false){
+                        jLabel7.setText("Il valore immesso non è valido");
+                    }
                 /*da controllare che siano solo numeri*/
                 String Res= jTextField7.getText();
                 String Password= new String(Passwd);
 
 
     }//GEN-LAST:event_jButton1ActionPerformed
+    public boolean phoneSyntaxCheck(String numero){
+   
+     String patternStr = ("[^0-9]");
+     Pattern pattern = Pattern.compile(patternStr);
 
+     Matcher matcher = pattern.matcher(numero);
+     boolean matchFound = matcher.find();    
+    if (matchFound)
+        return false;
+     else return true;
+   
+   
+}
     private boolean mailSyntaxCheck(String email)
    {
         // Create the Pattern using the regex
