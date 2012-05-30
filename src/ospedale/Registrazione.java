@@ -5,6 +5,9 @@
 package ospedale;
 
 import java.sql.Connection;
+import java.util.StringTokenizer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -270,6 +273,9 @@ public class Registrazione extends javax.swing.JFrame {
                 char[] Passwd= jPasswordField1.getPassword();
                 if (Passwd.length<8){jLabel4.setText("Il valore immesso non è valido");}
                 String Email= jTextField5.getText();
+                    if (mailSyntaxCheck(Email)==false){
+                        jLabel5.setText("Il valore immesso non è valido");
+                    }
                 /*da mettere vincolo sintattico*/
                 String Tel= jTextField6.getText();
                 /*da controllare che siano solo numeri*/
@@ -279,6 +285,33 @@ public class Registrazione extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private boolean mailSyntaxCheck(String email)
+   {
+        // Create the Pattern using the regex
+        Pattern p = Pattern.compile(".+@.+\\.[a-z]+");
+ 
+        // Match the given string with the pattern
+        Matcher m = p.matcher(email);
+ 
+        // check whether match is found
+        boolean matchFound = m.matches();
+ 
+        StringTokenizer st = new StringTokenizer(email, ".");
+        String lastToken = null;
+        while (st.hasMoreTokens()) {
+            lastToken = st.nextToken();
+        }
+ 
+    // validate the country code
+        if (matchFound && lastToken.length() >= 2
+                && email.length() - 1 != lastToken.length()) {
+ 
+            return true;
+        } else {
+            return false;
+        }
+ 
+    }
     /**
      * @param args the command line arguments
      */
