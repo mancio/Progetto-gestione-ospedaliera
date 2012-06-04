@@ -110,7 +110,7 @@ public class Database {
                         Paziente p = new Paziente(cod,pass,nome,mail,tel,res,adm);
                         p.setVisible(true);
                     }else{
-                        Amministratore a=new Amministratore();
+                        Amministratore a=new Amministratore(cod,pass,nome,mail,tel,res,adm);
                         a.setVisible(true);
                     }
                 }
