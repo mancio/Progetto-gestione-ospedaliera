@@ -9,18 +9,24 @@ import java.sql.Connection;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author mancio
  */
 public class Registrazione extends javax.swing.JFrame {
-
+private Database db;
+private boolean connesso;
     /**
      * Creates new form Registrazione
      */
     public Registrazione() {
         initComponents();
+        try {
+        db=new Database("ospedale","root","lilli");
+      if (db.connetti()==true) System.out.println("connesso al db");
+    }catch (Exception e) {e.getMessage(); }
     }
 
     /**
@@ -46,8 +52,8 @@ public class Registrazione extends javax.swing.JFrame {
         jTextField5 = new javax.swing.JTextField();
         jTextField6 = new javax.swing.JTextField();
         jTextField7 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        jButtonRegistrati = new javax.swing.JButton();
+        jButtonIndietro = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -89,17 +95,17 @@ public class Registrazione extends javax.swing.JFrame {
         label9.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         label9.setText("NUMERO TELEFONICO:");
 
-        jButton1.setText("REGISTRATI");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButtonRegistrati.setText("REGISTRATI");
+        jButtonRegistrati.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButtonRegistratiActionPerformed(evt);
             }
         });
 
-        jButton3.setText("INDIETRO");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        jButtonIndietro.setText("INDIETRO");
+        jButtonIndietro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                jButtonIndietroActionPerformed(evt);
             }
         });
 
@@ -172,14 +178,14 @@ public class Registrazione extends javax.swing.JFrame {
                                             .addGap(64, 64, 64)
                                             .addComponent(jTextField2))))
                                 .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jButton1)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButton3))
                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                     .addComponent(label8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jButtonIndietro)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButtonRegistrati))))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -246,11 +252,11 @@ public class Registrazione extends javax.swing.JFrame {
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jLabel8)))
-                        .addGap(73, 73, 73)
+                        .addGap(84, 84, 84)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton1)
-                            .addComponent(jButton3))
-                        .addGap(68, 68, 68))
+                            .addComponent(jButtonRegistrati)
+                            .addComponent(jButtonIndietro))
+                        .addGap(57, 57, 57))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(0, 303, Short.MAX_VALUE))))
@@ -259,67 +265,121 @@ public class Registrazione extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        Login_form Login_form = new Login_form();
+    private void jButtonIndietroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIndietroActionPerformed
+        Login Login_form = new Login();
         Login_form.setVisible(true);
         this.setVisible(false);
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_jButtonIndietroActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jButtonRegistratiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRegistratiActionPerformed
                 Connection con = null;
+    
                 
                 /*String url = "jdbc:mysql://localhost:3306/ospedale";*/
+                
+                boolean [] dati_corretti=new boolean[7];
+                int errori=0;
+                for (int i=0;i<7;i++){
+                    dati_corretti[i]=true;
+                }
                 String Cod_Fisc= jTextField1.getText();
+              
+                jLabel4.setText("(16 caratteri - obbligatorio)");
+                jLabel4.setForeground(Color.BLACK);
                 if (Cod_Fisc.isEmpty()){
                     jLabel4.setText("Il campo è obbligatorio");
                     jLabel4.setForeground(Color.RED);
+                    dati_corretti[0]=false;
                 }
                 else if (Cod_Fisc.length() != 16 ){
                     jLabel4.setText("Il dato deve essere composto da 16 caratteri");
                     jLabel4.setForeground(Color.RED);
+                    dati_corretti[0]=false;
                 }
                 String Nome= jTextField3.getText();
+                jLabel3.setText("(obbligatorio)");
+                jLabel3.setForeground(Color.BLACK);
                 if (Nome.isEmpty()){
                     jLabel3.setText("Il campo è obbligatorio");
                     jLabel3.setForeground(Color.RED);
+                    dati_corretti[1]=false;
                 }
                 String Cognome= jTextField2.getText();
+                
+                jLabel9.setText("(obbligatorio)");
+                jLabel9.setForeground(Color.BLACK);
                 if (Cognome.isEmpty()){
                     jLabel9.setText("Il campo è obbligatorio");
                     jLabel9.setForeground(Color.RED);
+                    dati_corretti[2]=false;
                 }
                 char[] Passwd= jPasswordField2.getPassword();
+                
+                jLabel2.setText("(min. 8 caratteri - obbligatorio)");
+                jLabel2.setForeground(Color.BLACK);
                 if (Passwd.length<8){
                     jLabel2.setText("La password dave avere almeno 8 caratteri");
                     jLabel2.setForeground(Color.RED);
+                    dati_corretti[3]=false;
                 }
                 String Email= jTextField5.getText();
+               
+                    jLabel5.setText("(es. user@service.com - facoltativo)");
+                    jLabel5.setForeground(Color.BLACK);
                     if(Email.isEmpty()==false){
                         if (mailSyntaxCheck(Email)==false){
                             jLabel5.setText("Il dato immesso non è valido");
                             jLabel5.setForeground(Color.RED);
+                            dati_corretti[4]=false;
                         }
                     }
         
                 String Tel= jTextField6.getText();
+               
+                    jLabel7.setText("(min. 8 cifre - obbligatorio)");
+                    jLabel7.setForeground(Color.BLACK);
                     if (Tel.isEmpty()){
                         jLabel7.setText("Il campo è obbligatorio");
                         jLabel7.setForeground(Color.RED);
+                        dati_corretti[5]=false;
                     }
                     else if ((phoneSyntaxCheck(Tel)==false) || (Tel.length() < 8)){
                         jLabel7.setText("Il dato immesso non è valido, deve contenere almeno 8 cifre");
                         jLabel7.setForeground(Color.RED);
+                        dati_corretti[5]=false;
                     }
               
-                String Res= jTextField7.getText();
+                String Res= jTextField7.getText();               
+                jLabel8.setText("(Via, Civico, CAP, Città - obbligatorio)");
+                jLabel8.setForeground(Color.BLACK);      
                 if (Res.isEmpty()){
                     jLabel8.setText("Il campo è obbligatorio");
                     jLabel8.setForeground(Color.RED);
+                    dati_corretti[6]=false;
                 }
                 String Password= new String(Passwd);
+// Controlla se tutti i campi sono inseriti nella maniera corretta
+                for(int i=0;i<7;i++){
+                    if (dati_corretti[i]==false) errori=errori+1;
+                }
+                if(errori==0){
+                   
+                    //implementare metodo per effettuare login 
+                    db.addUtente(Cod_Fisc, Password, Cognome+" "+Nome, Email, Tel, Res);
+                    connesso=db.connettiUtente(Cod_Fisc, Password);
+                    this.setVisible(false);
+                    //se si è loggati come PAZIENTE:
+                   //new Paziente().setVisible(true);
+                   //this.setVisible(false);           
+                    
+                     // se si è loggati come ADMIN
+                    //new Amministratore().setVisible(true);
+                    //this.setVisible(false);
+                    
+                    
+                }else JOptionPane.showMessageDialog(null,"I campi non sono stati riempiti in modo corretto","Error",JOptionPane.ERROR_MESSAGE);
 
-
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jButtonRegistratiActionPerformed
     public boolean phoneSyntaxCheck(String numero){
    
      String patternStr = ("[^0-9]");
@@ -402,8 +462,8 @@ public class Registrazione extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButtonIndietro;
+    private javax.swing.JButton jButtonRegistrati;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
