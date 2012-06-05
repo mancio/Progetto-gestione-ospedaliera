@@ -27,6 +27,7 @@ private String codice,pass,paziente,email,telef,resid,reparto;
     private boolean connesso;
     private Connection conn;
     private DefaultTableModel model;
+    public String data,ora;
     /**
      * Creates new form Prenota
      */
@@ -67,6 +68,7 @@ private String codice,pass,paziente,email,telef,resid,reparto;
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -108,6 +110,8 @@ private String codice,pass,paziente,email,telef,resid,reparto;
             }
         });
 
+        jLabel5.setText("jLabel5");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -133,7 +137,8 @@ private String codice,pass,paziente,email,telef,resid,reparto;
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jButtonConferma, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING)))))
+                                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING)))
+                            .addComponent(jLabel5)))
                     .addComponent(jLabel2))
                 .addContainerGap(16, Short.MAX_VALUE))
         );
@@ -148,6 +153,8 @@ private String codice,pass,paziente,email,telef,resid,reparto;
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
                             .addComponent(jButton1))
+                        .addGap(27, 27, 27)
+                        .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jRadioButtonPriorità))
                     .addComponent(jLabel1))
@@ -189,7 +196,11 @@ private String codice,pass,paziente,email,telef,resid,reparto;
         tabella.setVisible(true);
         
     }//GEN-LAST:event_jButton1ActionPerformed
-
+    
+    public void prenotazione(String d, String o){
+        data=d;
+        ora=o;
+    }
    
     /**
      * @param args the command line arguments
@@ -241,6 +252,7 @@ private String codice,pass,paziente,email,telef,resid,reparto;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JRadioButton jRadioButtonPriorità;
     private java.awt.Label label1;
     // End of variables declaration//GEN-END:variables

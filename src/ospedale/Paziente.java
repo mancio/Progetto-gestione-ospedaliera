@@ -192,6 +192,10 @@ public class Paziente extends javax.swing.JFrame {
                     Prenota p=new Prenota(codice,pass,paziente,email,telef,resid,is_admin,"ortopedia");
                     p.setVisible(true);
                     this.setVisible(false);
+                }else{
+                    Prenota p=new Prenota(codice,pass,paziente,email,telef,resid,is_admin,"pediatria");
+                    p.setVisible(true);
+                    this.setVisible(false);
                 }
         }
         if (jRadioButtonPrenota.isSelected()==false && jRadioButtonStorico.isSelected()){

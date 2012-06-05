@@ -136,7 +136,7 @@ public class Database {
   }
    
    
-   public Vector eseguiQuery(String query) {
+   public ResultSet eseguiQuery(String query) {
       ResultSet rs=null;
        Vector a1 = null;
       String [] record;
@@ -144,7 +144,7 @@ public class Database {
       try {
          Statement stmt = db.createStatement();     // Creo lo Statement per l'esecuzione della query
          rs = stmt.executeQuery(query);   // Ottengo il ResultSet dell'esecuzione della query
-         a1 = new Vector();
+         /*a1 = new Vector();
          ResultSetMetaData rsmd = rs.getMetaData();
          colonne = rsmd.getColumnCount();
          while(rs.next()) {   // Creo il vettore risultato scorrendo tutto il ResultSet
@@ -155,7 +155,7 @@ public class Database {
          rs.close();     // Chiudo il ResultSet
          stmt.close();   // Chiudo lo Statement */
       } catch (Exception e) { e.printStackTrace(); errore = e.getMessage(); }
-      return a1;
+      return rs;
    }
 
    // Esegue una query di aggiornamento sul Database
