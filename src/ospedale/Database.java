@@ -15,6 +15,7 @@ package ospedale;
  * Fornisce i metodi per l'esecuzione delle query sul Database
  */
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Vector;
 
 public class Database {
@@ -136,26 +137,25 @@ public class Database {
    
    
    public Vector eseguiQuery(String query) {
-      Vector v = null;
+      ResultSet rs=null;
+       Vector a1 = null;
       String [] record;
       int colonne = 0;
       try {
          Statement stmt = db.createStatement();     // Creo lo Statement per l'esecuzione della query
-         ResultSet rs = stmt.executeQuery(query);   // Ottengo il ResultSet dell'esecuzione della query
-         v = new Vector();
+         rs = stmt.executeQuery(query);   // Ottengo il ResultSet dell'esecuzione della query
+         a1 = new Vector();
          ResultSetMetaData rsmd = rs.getMetaData();
          colonne = rsmd.getColumnCount();
-
          while(rs.next()) {   // Creo il vettore risultato scorrendo tutto il ResultSet
             record = new String[colonne];
             for (int i=0; i<colonne; i++) record[i] = rs.getString(i+1);
-            v.add( (String[]) record.clone() );
+            a1.add( (String[]) record.clone() );
          }
          rs.close();     // Chiudo il ResultSet
-         stmt.close();   // Chiudo lo Statement
+         stmt.close();   // Chiudo lo Statement */
       } catch (Exception e) { e.printStackTrace(); errore = e.getMessage(); }
-
-      return v;
+      return a1;
    }
 
    // Esegue una query di aggiornamento sul Database

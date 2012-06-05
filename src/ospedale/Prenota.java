@@ -5,8 +5,14 @@
 package ospedale;
 
 
-import java.util.Enumeration;
+import com.mysql.jdbc.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Vector;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 
 /**
@@ -16,15 +22,17 @@ import java.util.Vector;
 public class Prenota extends javax.swing.JFrame {
 private String codice,pass,paziente,email,telef,resid,reparto;
     private int is_admin;
-    private Database db=new Database("ospedale","root","lilli");;
+    private Database db=new Database("ospedale","root","lilli");
     private Vector risultati=null;
     private boolean connesso;
+    private Connection conn;
+    private DefaultTableModel model;
     /**
      * Creates new form Prenota
      */
-    public Prenota() {
+   // public Prenota() {
         //initComponents();
-    }
+    //}
     public Prenota(String Cod_Fisc,String passw,String nome,String mail,String tel,String res,int adm,String rep){
         initComponents();
         codice=Cod_Fisc;
@@ -37,31 +45,9 @@ private String codice,pass,paziente,email,telef,resid,reparto;
         jLabel3.setText(paziente);
         reparto=rep;
         jLabel4.setText(reparto);
+        //new ModelJTable();
         
-        connesso=db.connetti();
-        String SQL="select data,ora from visite where reparto='"+reparto+"' and priorita='0' order by data,ora asc;";
-        risultati=db.eseguiQuery(SQL);
-       
-        int i=0;
-        while ( i<risultati.size() ) {
-            System.out.println("Record numero " + (i+1));
-            String [] record = (String[]) risultati.elementAt(i);
-            for (int j=0; j<record.length; j++){
-                System.out.println( record[j] );
-            }
-            i++;
-        }   
-        
-        
-        /* int lunghezza=risultati.size();
-        String[] vettore=new String[lunghezza];
-        for(int i=0;i<lunghezza;i++){
-            vettore[i]=(String) risultati.get(i);
-            System.out.println(vettore[i]);
-        }*/
-        
-        
-    }
+      }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -73,8 +59,6 @@ private String codice,pass,paziente,email,telef,resid,reparto;
 
         jLabel1 = new javax.swing.JLabel();
         label1 = new java.awt.Label();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         jRadioButtonPriorità = new javax.swing.JRadioButton();
         jButtonConferma = new javax.swing.JButton();
         jButtonEsci = new javax.swing.JButton();
@@ -82,6 +66,7 @@ private String codice,pass,paziente,email,telef,resid,reparto;
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -91,29 +76,6 @@ private String codice,pass,paziente,email,telef,resid,reparto;
         label1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         label1.setName("");
         label1.setText("PRENOTA LA VISITA");
-
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jTable1.setShowVerticalLines(false);
-        jScrollPane1.setViewportView(jTable1);
 
         jRadioButtonPriorità.setText("Richiedi priorità alta");
 
@@ -135,6 +97,17 @@ private String codice,pass,paziente,email,telef,resid,reparto;
 
         jLabel2.setText("Benvenuto:");
 
+        jLabel3.setText("jLabel3");
+
+        jLabel4.setText("jLabel4");
+
+        jButton1.setText("Date Disponibili");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -145,54 +118,52 @@ private String codice,pass,paziente,email,telef,resid,reparto;
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4))
+                            .addComponent(jLabel3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButtonEsci)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButtonIndietro)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButtonConferma))
-                            .addComponent(label1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, 455, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jButtonEsci)
+                                        .addGap(111, 111, 111)
+                                        .addComponent(jButtonIndietro))
                                     .addComponent(jRadioButtonPriorità)
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 453, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 0, Short.MAX_VALUE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                                    .addComponent(jLabel4))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jButtonConferma, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING)))))
+                    .addComponent(jLabel2))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(jButton1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jRadioButtonPriorità))
                     .addComponent(jLabel1))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jRadioButtonPriorità)
-                    .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
                 .addComponent(jLabel2)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(19, 19, 19)
+                        .addGap(20, 20, 20)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButtonConferma)
                             .addComponent(jButtonEsci)
-                            .addComponent(jButtonIndietro)))
+                            .addComponent(jButtonIndietro)
+                            .addComponent(jButtonConferma)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel3)))
-                .addContainerGap())
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         pack();
@@ -211,6 +182,13 @@ private String codice,pass,paziente,email,telef,resid,reparto;
         l.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jButtonEsciActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        ModelJTable_Prenota tabella=new ModelJTable_Prenota(reparto);
+        tabella.setVisible(true);
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
 
    
     /**
@@ -250,11 +228,12 @@ private String codice,pass,paziente,email,telef,resid,reparto;
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             public void run() {
-               // new Prenota().setVisible(true);
+                //new Prenota().setVisible(true);
             }
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonConferma;
     private javax.swing.JButton jButtonEsci;
     private javax.swing.JButton jButtonIndietro;
@@ -263,8 +242,6 @@ private String codice,pass,paziente,email,telef,resid,reparto;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JRadioButton jRadioButtonPriorità;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private java.awt.Label label1;
     // End of variables declaration//GEN-END:variables
 }

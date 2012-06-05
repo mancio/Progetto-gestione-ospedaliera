@@ -131,12 +131,10 @@
     <Component class="javax.swing.JComboBox" name="jComboBoxReparti">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="5">
+          <StringArray count="3">
             <StringItem index="0" value="Scegliere un reparto..."/>
             <StringItem index="1" value="Ortopedia"/>
             <StringItem index="2" value="Pediatria"/>
-            <StringItem index="3" value="Chirurgia"/>
-            <StringItem index="4" value="Medicina"/>
           </StringArray>
         </Property>
         <Property name="enabled" type="boolean" value="false"/>

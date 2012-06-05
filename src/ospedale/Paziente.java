@@ -17,7 +17,7 @@ public class Paziente extends javax.swing.JFrame {
      * Creates new form Reparto
      */
     public Paziente() {
-        //initComponents();
+        initComponents();
         
     }
     public Paziente(String Cod_Fisc,String passw,String nome,String mail,String tel,String res,int adm){
@@ -31,10 +31,7 @@ public class Paziente extends javax.swing.JFrame {
         is_admin=adm;
         jLabel4.setText(paziente);
     }
-   /*public void setPaziente(String user){
-       paziente=user;
-       jLabel4.setText(paziente);
-   }*/
+   
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -71,7 +68,7 @@ public class Paziente extends javax.swing.JFrame {
             }
         });
 
-        jComboBoxReparti.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Scegliere un reparto...", "Ortopedia", "Pediatria", "Chirurgia", "Medicina" }));
+        jComboBoxReparti.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Scegliere un reparto...", "Ortopedia", "Pediatria" }));
         jComboBoxReparti.setEnabled(false);
 
         jRadioButtonStorico.setText("Visualizza Storico Prenotazioni");
@@ -191,14 +188,16 @@ public class Paziente extends javax.swing.JFrame {
             
         }
         if (jRadioButtonPrenota.isSelected() && jComboBoxReparti.getSelectedIndex() != 0){
-            Prenota p=new Prenota();
-            p.setVisible(true);
-            this.setVisible(false);
+                if(jComboBoxReparti.getSelectedIndex()==1){
+                    Prenota p=new Prenota(codice,pass,paziente,email,telef,resid,is_admin,"ortopedia");
+                    p.setVisible(true);
+                    this.setVisible(false);
+                }
         }
         if (jRadioButtonPrenota.isSelected()==false && jRadioButtonStorico.isSelected()){
-            Vecchie_visite vv=new Vecchie_visite();
+            Vecchie_visite vv=new Vecchie_visite(codice,pass,paziente,email,telef,resid,is_admin);
             vv.setVisible(true);
-            vv.setUtente(paziente);
+            
             this.setVisible(false);
         }
     }//GEN-LAST:event_jButtonConfermaActionPerformed
@@ -247,7 +246,7 @@ public class Paziente extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             public void run() {
-               // new Paziente().setVisible(true);
+                new Paziente().setVisible(true);
             }
         });
         
