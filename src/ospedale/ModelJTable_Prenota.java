@@ -18,8 +18,8 @@ import javax.swing.table.DefaultTableModel;
  * @author alex
  */
 public class ModelJTable_Prenota extends JFrame{
-    private DefaultTableModel model;
-    private Database db=new Database("ospedale","root","lilli");
+  private DefaultTableModel model;
+  private Database db=new Database("ospedale","root","lilli");
   private JTable table;
   private String reparto,data_table,ora_table,SQL;
   private Paziente paz;
