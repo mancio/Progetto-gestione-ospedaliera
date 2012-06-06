@@ -88,20 +88,32 @@ public class ModelJTable_Prenota extends JFrame{
         model.removeRow(table.getSelectedRow());
       }
     });*/
-    
+    JLabel informazioni=new JLabel("DATE DISPONIBILLI");
+    JButton esci=new JButton("ESCI");
+    JLabel spazio1 =new JLabel("     ");
+    JLabel spazio2 =new JLabel("     ");
+    JButton conferma=new JButton("CONFERMA");
+    JButton indietro=new JButton("INDIETRO");
+    JRadioButton priorita=new JRadioButton("Richiedi Priorità");
     
     JPanel inputPanel = new JPanel();
-    jLabel1=new JLabel();
-    inputPanel.add(jLabel1);
-    //inputPanel.add(addButton);
-    //inputPanel.add(removeButton);
-
+    JPanel inputPanel2 =new JPanel();
+    inputPanel.add(esci);
+    inputPanel.add(spazio1);
+    inputPanel.add(priorita);
+    inputPanel.add(spazio2);
+    inputPanel.add(indietro);
+    inputPanel.add(conferma);
+    inputPanel2.add(informazioni);
     Container container = getContentPane();
+  
+   
     container.add(new JScrollPane(table), BorderLayout.CENTER);
-    container.add(inputPanel, BorderLayout.NORTH);
+    container.add(inputPanel2,BorderLayout.NORTH);
+    container.add(inputPanel, BorderLayout.AFTER_LAST_LINE);
 
     setDefaultCloseOperation(EXIT_ON_CLOSE);
-    setSize(400, 300);
+    setSize(500, 400);
     setVisible(true);
    
     table.addMouseListener(new MouseAdapter() {
@@ -109,9 +121,9 @@ public class ModelJTable_Prenota extends JFrame{
        String col1 = (String) table.getValueAt(table.getSelectedRow(), 0);
        String col2 = (String) table.getValueAt(table.getSelectedRow(), 1);
        if((col1.length() != 0) && (col2.length() != 0)) {
-           //JOptionPane.showMessageDialog(null,"Contenuto riga selezionata: "+col1+" "+col2);
+           JOptionPane.showMessageDialog(null,"Contenuto riga selezionata: "+col1+" "+col2);
         
-           jLabel1.setText("hai selezionato: "+col1+" -- "+col2);
+           //jLabel1.setText("hai selezionato: "+col1+" -- "+col2);
        }
      }
    });

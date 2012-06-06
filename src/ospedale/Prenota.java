@@ -27,7 +27,7 @@ private String codice,pass,paziente,email,telef,resid,reparto;
     private boolean connesso;
     private Connection conn;
     private DefaultTableModel model;
-    public String data,ora;
+    
     /**
      * Creates new form Prenota
      */
@@ -196,11 +196,7 @@ private String codice,pass,paziente,email,telef,resid,reparto;
         tabella.setVisible(true);
         
     }//GEN-LAST:event_jButton1ActionPerformed
-    
-    public void prenotazione(String d, String o){
-        data=d;
-        ora=o;
-    }
+
    
     /**
      * @param args the command line arguments
