@@ -161,15 +161,7 @@ public class Amministratore extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        if ((jRadioButton1.isSelected()==false) && (jRadioButton2.isSelected()==false) && (jRadioButton3.isSelected()==false)){
-            JOptionPane.showMessageDialog(null,"Effettuare una scelta","Error",JOptionPane.ERROR_MESSAGE);
-        }else{
-            if (jRadioButton1.isSelected()){
-                Visite v=new Visite();
-                v.setVisible(true);
-                this.setVisible(false);
-            }
-        }
+       
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
