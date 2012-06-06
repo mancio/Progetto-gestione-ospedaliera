@@ -48,8 +48,9 @@ public class ModelJTable_Storico extends JFrame{
         Container container = getContentPane();
         
         JLabel informazioni = new JLabel("ELENCO PRENOTAZIONI");
+        JLabel user=new JLabel(paz.getPaziente());
         JButton esci=new JButton("ESCI");
-        JLabel spazio=new JLabel("                   ");
+        JLabel spazio=new JLabel("          ");
         JButton indietro=new JButton("INDIETRO");
         JButton referto=new JButton("REFERTO");
         
@@ -57,6 +58,7 @@ public class ModelJTable_Storico extends JFrame{
         JPanel inputPanel1 = new JPanel();
         inputPanel1.add(informazioni);
         JPanel inputPanel2 =new JPanel();
+        inputPanel2.add(user);
         inputPanel2.add(esci);
         inputPanel2.add(spazio);
         inputPanel2.add(indietro);

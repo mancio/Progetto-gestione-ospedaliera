@@ -53,7 +53,7 @@ public class ModelJTable_Prenota extends JFrame{
     
     JLabel informazioni=new JLabel("DATE DISPONIBILLI");
     JButton esci=new JButton("ESCI");
-    JLabel spazio1 =new JLabel("     ");
+    JLabel user =new JLabel(paz.getPaziente());
     JLabel spazio2 =new JLabel("     ");
     JButton conferma=new JButton("CONFERMA");
     JButton indietro=new JButton("INDIETRO");
@@ -61,8 +61,8 @@ public class ModelJTable_Prenota extends JFrame{
     
     JPanel inputPanel = new JPanel();
     JPanel inputPanel2 =new JPanel();
+    inputPanel.add(user);
     inputPanel.add(esci);
-    inputPanel.add(spazio1);
     inputPanel.add(priorita);
     inputPanel.add(spazio2);
     inputPanel.add(indietro);
@@ -115,8 +115,8 @@ public class ModelJTable_Prenota extends JFrame{
             db.connetti();
             ResultSet rs = db.eseguiQuery(SQL);            
             while(rs.next()){             
-                       System.out.println(rs.getString(1)+"  -  "+rs.getString(2));
-                       String[] stringa={rs.getString(1),rs.getString(2)};
+                       System.out.println(rs.getString("data")+"  -  "+rs.getString("ora"));
+                       String[] stringa={rs.getString("data"),rs.getString("ora")};
                        model.addRow(stringa);  
                        
             }
@@ -149,7 +149,21 @@ public class ModelJTable_Prenota extends JFrame{
           SQL="delete from visite where reparto='"+reparto+"' and data='"+data_table+"'and ora='"+ora_table+"';";
           if (ris==true) System.out.println("ok");
           ris=db.eseguiAggiornamento(SQL);
-          popolaTable();
+          
+          String codice=null;
+         try{ 
+          SQL="select idprenotazione from prenotazioni where reparto='"+reparto+"' and data='"+data_table+"' and ora='"+ora_table+"';";
+          ResultSet rs=db.eseguiQuery(SQL);
+          while(rs.next()){
+              codice=rs.getString("idprenotazione");
+          }
+          rs.close();
+         } catch(SQLException e){ System.out.println(e); }
+
+         SQL="insert into referti (idprenotazione,cod_fisc) values ('"+codice+"','"+paz.getCod_Fisc()+"');";
+         ris=db.eseguiAggiornamento(SQL);
+         
+         popolaTable();
           data_table=null;
           ora_table=null;
           db.disconnetti();
