@@ -192,8 +192,9 @@ private String codice,pass,paziente,email,telef,resid,reparto;
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        ModelJTable_Prenota tabella=new ModelJTable_Prenota(reparto);
-        tabella.setVisible(true);
+        //ModelJTable_Prenota tabella=new ModelJTable_Prenota(reparto);
+        //tabella.setVisible(true);
+        this.setVisible(false);
         
     }//GEN-LAST:event_jButton1ActionPerformed
 

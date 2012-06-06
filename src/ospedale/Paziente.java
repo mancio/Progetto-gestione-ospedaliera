@@ -5,7 +5,7 @@
 package ospedale;
 
 import javax.swing.JOptionPane;
-
+ 
 /**
  *
  * @author mancio
@@ -31,6 +31,8 @@ public class Paziente extends javax.swing.JFrame {
         is_admin=adm;
         jLabel4.setText(paziente);
     }
+   public String getCod_Fisc(){return codice;}
+   public String getPaziente(){ return paziente;}
    
     /**
      * This method is called from within the constructor to initialize the form.
@@ -189,11 +191,11 @@ public class Paziente extends javax.swing.JFrame {
         }
         if (jRadioButtonPrenota.isSelected() && jComboBoxReparti.getSelectedIndex() != 0){
                 if(jComboBoxReparti.getSelectedIndex()==1){
-                    Prenota p=new Prenota(codice,pass,paziente,email,telef,resid,is_admin,"ortopedia");
+                    ModelJTable_Prenota p=new ModelJTable_Prenota("ortopedia",this);
                     p.setVisible(true);
                     this.setVisible(false);
                 }else{
-                    Prenota p=new Prenota(codice,pass,paziente,email,telef,resid,is_admin,"pediatria");
+                    ModelJTable_Prenota p=new ModelJTable_Prenota("pediatria",this);
                     p.setVisible(true);
                     this.setVisible(false);
                 }
@@ -250,7 +252,7 @@ public class Paziente extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             public void run() {
-                new Paziente().setVisible(true);
+               // new Paziente().setVisible(true);
             }
         });
         

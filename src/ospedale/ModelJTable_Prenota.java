@@ -24,40 +24,35 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ModelJTable_Prenota extends JFrame{
     private DefaultTableModel model;
-    private Database db;
+    private Database db=new Database("ospedale","root","lilli");;
   private JTable table;
-  private String reparto;
-  private JLabel jLabel1;
+  private String reparto,data_table,ora_table,SQL;
+  private Paziente paz;
+  JRadioButton priorita;
+  
+  
   public ModelJTable_Prenota(){
       
   }
 
-  public ModelJTable_Prenota(String rep) {
+  public ModelJTable_Prenota(String rep,Paziente p) {
     super();
+    data_table=null;
+    ora_table=null;
     reparto=rep;
+    paz=p;
     model = new DefaultTableModel();
     model.addColumn("GIORNO");
     model.addColumn("ORARIO");
-
-    
-           
-        String SQL="select data,ora from visite where reparto='"+reparto+"' and priorita='0' order by data,ora asc;";       
+          
+        SQL="select data,ora from visite where reparto='"+reparto+"' and priorita='0' order by data,ora asc;";       
         try {
-            /*Class.forName("com.mysql.jdbc.Driver");
-            conn = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/ospedale?user=root&password=lilli");
-
-            Statement stmt = conn.createStatement(); // Creo lo Statement per l'esecuzione della query
-            */
-            db=new Database("ospedale","root","lilli");
             db.connetti();
-            ResultSet rs = db.eseguiQuery(SQL);
-            
-            while(rs.next()){
-             
+            ResultSet rs = db.eseguiQuery(SQL);            
+            while(rs.next()){             
                        System.out.println(rs.getString(1)+"  -  "+rs.getString(2));
                        String[] stringa={rs.getString(1),rs.getString(2)};
-                       model.addRow(stringa);
-                
+                       model.addRow(stringa);                
             }
             rs.close(); 
             db.disconnetti();
@@ -94,7 +89,7 @@ public class ModelJTable_Prenota extends JFrame{
     JLabel spazio2 =new JLabel("     ");
     JButton conferma=new JButton("CONFERMA");
     JButton indietro=new JButton("INDIETRO");
-    JRadioButton priorita=new JRadioButton("Richiedi Priorità");
+    priorita=new JRadioButton("Richiedi Priorità");
     
     JPanel inputPanel = new JPanel();
     JPanel inputPanel2 =new JPanel();
@@ -115,20 +110,62 @@ public class ModelJTable_Prenota extends JFrame{
     setDefaultCloseOperation(EXIT_ON_CLOSE);
     setSize(500, 400);
     setVisible(true);
+    
+   esci.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                esciActionPerformed(evt);
+            }
+        });
+   indietro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                indietroActionPerformed(evt);
+            }
+        });
+   conferma.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                confermaActionPerformed(evt);
+            }
+        });
    
     table.addMouseListener(new MouseAdapter() {
      public void mouseClicked(MouseEvent me) {
-       String col1 = (String) table.getValueAt(table.getSelectedRow(), 0);
-       String col2 = (String) table.getValueAt(table.getSelectedRow(), 1);
-       if((col1.length() != 0) && (col2.length() != 0)) {
-           JOptionPane.showMessageDialog(null,"Contenuto riga selezionata: "+col1+" "+col2);
+       data_table = (String) table.getValueAt(table.getSelectedRow(), 0);
+       ora_table = (String) table.getValueAt(table.getSelectedRow(), 1);
+       if((data_table.length() != 0) && (ora_table.length() != 0)) {
+           JOptionPane.showMessageDialog(null,"Contenuto riga selezionata: "+data_table+" "+ora_table);
         
-           //jLabel1.setText("hai selezionato: "+col1+" -- "+col2);
+           
        }
      }
    });
   }
- 
+  private void esciActionPerformed(java.awt.event.ActionEvent evt){
+      this.setVisible(false);
+      Login l=new Login();
+      l.setVisible(true);
+  }
+  
+  private void indietroActionPerformed(java.awt.event.ActionEvent evt){
+      
+  }
+  
+   private void confermaActionPerformed(java.awt.event.ActionEvent evt){
+      if((data_table==null) && (ora_table==null)) {
+           JOptionPane.showMessageDialog(null,"Effettua una scelta prima di proseguire");
+      }else{
+          db.connetti();
+          if (priorita.isSelected()){
+                SQL="insert into prenotazioni (reparto,data,ora,priorita,idpaziente) values ('"+reparto+"','"+data_table+"','"+ora_table+"','1','"+paz.getCod_Fisc()+"');";
+          }else { 
+              SQL="insert into prenotazioni (reparto,data,ora,priorita,idpaziente) values ('"+reparto+"','"+data_table+"','"+ora_table+"','0','"+paz.getCod_Fisc()+"');";
+          }
+          boolean ris=db.eseguiAggiornamento(SQL);
+          SQL="delete from visite where reparto='"+reparto+"' and data='"+data_table+"'and ora='"+ora_table+"';";
+          if (ris==true) System.out.println("ok");
+          ris=db.eseguiAggiornamento(SQL);
+          db.disconnetti();
+      }
+  }
   
   public static void main(String args[]) {
     //new ModelJTable_Prenota();
