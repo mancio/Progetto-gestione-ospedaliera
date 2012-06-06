@@ -5,7 +5,7 @@
 package ospedale;
 
 import javax.swing.JOptionPane;
- 
+  
 /**
  *
  * @author mancio
@@ -191,17 +191,17 @@ public class Paziente extends javax.swing.JFrame {
         }
         if (jRadioButtonPrenota.isSelected() && jComboBoxReparti.getSelectedIndex() != 0){
                 if(jComboBoxReparti.getSelectedIndex()==1){
-                    ModelJTable_Prenota p=new ModelJTable_Prenota("ortopedia",this);
+                    ModelJTable p=new ModelJTable("ortopedia",this);
                     p.setVisible(true);
                     this.setVisible(false);
                 }else{
-                    ModelJTable_Prenota p=new ModelJTable_Prenota("pediatria",this);
+                    ModelJTable p=new ModelJTable("pediatria",this);
                     p.setVisible(true);
                     this.setVisible(false);
                 }
         }
         if (jRadioButtonPrenota.isSelected()==false && jRadioButtonStorico.isSelected()){
-            ModelJTable_Storico s=new ModelJTable_Storico(this);
+            ModelJTable s=new ModelJTable(this);
             s.setVisible(true);
             
             this.setVisible(false);
