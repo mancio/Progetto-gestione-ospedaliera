@@ -45,18 +45,8 @@ public class ModelJTable_Prenota extends JFrame{
     model.addColumn("GIORNO");
     model.addColumn("ORARIO");
           
-        SQL="select data,ora from visite where reparto='"+reparto+"' and priorita='0' order by data,ora asc;";       
-        try {
-            db.connetti();
-            ResultSet rs = db.eseguiQuery(SQL);            
-            while(rs.next()){             
-                       System.out.println(rs.getString(1)+"  -  "+rs.getString(2));
-                       String[] stringa={rs.getString(1),rs.getString(2)};
-                       model.addRow(stringa);                
-            }
-            rs.close(); 
-            db.disconnetti();
-        }catch(SQLException e){ System.out.println(e); } 
+    popolaTable();
+         
     
     table = new JTable(model){
         public boolean isCellEditable(int rowIndex, int colIndex) {
@@ -139,6 +129,23 @@ public class ModelJTable_Prenota extends JFrame{
      }
    });
   }
+  
+  private void popolaTable(){
+      SQL="select data,ora from visite where reparto='"+reparto+"' and priorita='0' order by data,ora asc;";
+           model.setRowCount(0); //svuota la tabella
+        try {
+            db.connetti();
+            ResultSet rs = db.eseguiQuery(SQL);            
+            while(rs.next()){             
+                       System.out.println(rs.getString(1)+"  -  "+rs.getString(2));
+                       String[] stringa={rs.getString(1),rs.getString(2)};
+                       model.addRow(stringa);  
+                       
+            }
+            rs.close(); 
+            db.disconnetti();
+        }catch(SQLException e){ System.out.println(e); }
+  }
   private void esciActionPerformed(java.awt.event.ActionEvent evt){
       this.setVisible(false);
       Login l=new Login();
@@ -146,7 +153,8 @@ public class ModelJTable_Prenota extends JFrame{
   }
   
   private void indietroActionPerformed(java.awt.event.ActionEvent evt){
-      
+      paz.setVisible(true);
+      this.setVisible(false);
   }
   
    private void confermaActionPerformed(java.awt.event.ActionEvent evt){
@@ -163,10 +171,15 @@ public class ModelJTable_Prenota extends JFrame{
           SQL="delete from visite where reparto='"+reparto+"' and data='"+data_table+"'and ora='"+ora_table+"';";
           if (ris==true) System.out.println("ok");
           ris=db.eseguiAggiornamento(SQL);
+          popolaTable();
+          data_table=null;
+          ora_table=null;
           db.disconnetti();
+          
       }
   }
   
+
   public static void main(String args[]) {
     //new ModelJTable_Prenota();
   }
