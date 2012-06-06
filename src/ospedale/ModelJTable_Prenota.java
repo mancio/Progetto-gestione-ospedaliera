@@ -4,17 +4,12 @@
  */
 package ospedale;
 
-import com.mysql.jdbc.Connection;
 import java.awt.BorderLayout;
 import java.awt.Container;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
@@ -24,7 +19,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ModelJTable_Prenota extends JFrame{
     private DefaultTableModel model;
-    private Database db=new Database("ospedale","root","lilli");;
+    private Database db=new Database("ospedale","root","lilli");
   private JTable table;
   private String reparto,data_table,ora_table,SQL;
   private Paziente paz;
@@ -56,23 +51,6 @@ public class ModelJTable_Prenota extends JFrame{
     table.setColumnSelectionAllowed(false);
     table.setRowSelectionAllowed(true);
     
-    /*JButton addButton = new JButton("Add Philosopher");
-    addButton.addActionListener(new ActionListener() {
-
-      public void actionPerformed(ActionEvent event) {
-        String[] philosopher = { "", ""};
-        model.addRow(philosopher);
-      }
-    });
-
-    JButton removeButton = new JButton("Remove Selected Philosopher");
-
-    removeButton.addActionListener(new ActionListener() {
-
-      public void actionPerformed(ActionEvent event) {
-        model.removeRow(table.getSelectedRow());
-      }
-    });*/
     JLabel informazioni=new JLabel("DATE DISPONIBILLI");
     JButton esci=new JButton("ESCI");
     JLabel spazio1 =new JLabel("     ");

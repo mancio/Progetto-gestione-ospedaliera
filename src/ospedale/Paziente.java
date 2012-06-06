@@ -201,8 +201,8 @@ public class Paziente extends javax.swing.JFrame {
                 }
         }
         if (jRadioButtonPrenota.isSelected()==false && jRadioButtonStorico.isSelected()){
-            Vecchie_visite vv=new Vecchie_visite(codice,pass,paziente,email,telef,resid,is_admin);
-            vv.setVisible(true);
+            ModelJTable_Storico s=new ModelJTable_Storico(this);
+            s.setVisible(true);
             
             this.setVisible(false);
         }
