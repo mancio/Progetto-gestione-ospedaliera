@@ -89,8 +89,9 @@ public class ModelJTable extends JFrame{
             break;
             case 3:
             popolaTable("select idprenotazione,reparto,data,ora,idpaziente from prenotazioni where idpaziente='"+info+"' order by idprenotazione asc;",model.getColumnCount());     
+            break;
             case 4:
-            popolaTable("select idprenotazione,reparto,data,ora,idpaziente from prenotazioni where idprenotazione='"+info+"' order by idprenotazione asc;",model.getColumnCount());
+            popolaTable("select idprenotazione,reparto,data,ora,idpaziente from prenotazioni where idprenotazione='"+info+"';",model.getColumnCount());
             break;
         }
         table = new JTable(model){

@@ -284,7 +284,7 @@ public class Amministratore extends javax.swing.JFrame {
         jComboPaziente.setEnabled(true);
         jComboID.setEnabled(true);
     }
-    
+     
     private void confermaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confermaActionPerformed
         // TODO add your handling code here:
         if(visualizzaPrenotazioniReferti.isSelected() && visualizzaTutte.isSelected()){  //visualizza tutte le prenotazioni
@@ -292,17 +292,17 @@ public class Amministratore extends javax.swing.JFrame {
             this.setVisible(false);
         }
         
-        if(jComboReparto.isEnabled() && jComboReparto.getSelectedIndex()!=0){
+        if(visualizzaPrenotazioniReferti.isSelected() && jComboReparto.isEnabled() && jComboReparto.getSelectedIndex()!=0){
             ModelJTable m=new ModelJTable(this,2,(String)jComboReparto.getSelectedItem());
             this.setVisible(false);
         }
         
-        if(jComboPaziente.isEnabled() && jComboPaziente.getSelectedIndex()!=0){
+        if(visualizzaPrenotazioniReferti.isSelected() && jComboPaziente.isEnabled() && jComboPaziente.getSelectedIndex()!=0){
             ModelJTable m=new ModelJTable(this,3,(String)jComboPaziente.getSelectedItem());
             this.setVisible(false);
         }
         
-        if(jComboID.isEnabled() && jComboID.getSelectedIndex()!=0){
+        if(visualizzaPrenotazioniReferti.isSelected() && jComboID.isEnabled() && jComboID.getSelectedIndex()!=0){
             ModelJTable m=new ModelJTable(this,4,(String)jComboID.getSelectedItem());
             this.setVisible(false);
         }
