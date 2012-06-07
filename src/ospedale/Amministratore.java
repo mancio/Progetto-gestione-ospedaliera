@@ -45,6 +45,24 @@ public class Amministratore extends javax.swing.JFrame {
         bg2.add(visualizzaIDPrenotazione);
         bg2.add(visualizzaTutte);
         disabilitaSelezione();
+        getPazienti();
+        getPrenotazioni();
+    }
+    
+    public void getPrenotazioni(){
+        try{
+        db=new Database("ospedale","root","lilli");
+        rs=db.eseguiQuery("select idprenotazione from prenotazioni order by idprenotazione asc;");
+        jComboID.addItem("..selezionare una prenotazione..");
+        
+            while(rs.next()){
+                jComboID.addItem(rs.getString("idprenotazione"));
+            }
+        }catch (Exception e) { System.out.println(e.getMessage()); }
+
+    }
+    
+    public void getPazienti(){
         try{
         db=new Database("ospedale","root","lilli");
         rs=db.eseguiQuery("select cod_fisc from utenti where is_admin='0' order by cod_fisc asc;");
@@ -54,8 +72,8 @@ public class Amministratore extends javax.swing.JFrame {
                 jComboPaziente.addItem(rs.getString("cod_fisc"));
             }
         }catch (Exception e) { System.out.println(e.getMessage()); }
+
     }
-    
  
     public String getAmministratore(){ return amministratore;}
 
@@ -86,7 +104,6 @@ public class Amministratore extends javax.swing.JFrame {
         jComboID = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setResizable(false);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ospedale/logo.jpeg"))); // NOI18N
 
@@ -157,9 +174,7 @@ public class Amministratore extends javax.swing.JFrame {
             }
         });
 
-        jComboReparto.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "selezionare un reparto", "ortopedia", "pediatria" }));
-
-        jComboID.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "seleziona una prenotazione" }));
+        jComboReparto.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "..selezionare un reparto..", "ortopedia", "pediatria" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -199,7 +214,7 @@ public class Amministratore extends javax.swing.JFrame {
                                             .addComponent(jComboReparto, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))))
                     .addComponent(jLabel3)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGap(0, 503, Short.MAX_VALUE)
                         .addComponent(conferma)))
                 .addContainerGap())
         );
@@ -265,12 +280,30 @@ public class Amministratore extends javax.swing.JFrame {
         visualizzaPaziente.setEnabled(true);
         visualizzaIDPrenotazione.setEnabled(true);
         visualizzaTutte.setEnabled(true);
+        jComboReparto.setEnabled(true);
+        jComboPaziente.setEnabled(true);
+        jComboID.setEnabled(true);
     }
     
     private void confermaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confermaActionPerformed
         // TODO add your handling code here:
-        if(visualizzaPrenotazioniReferti.isSelected() && visualizzaTutte.isSelected()){
-            ModelJTable m=new ModelJTable(this);
+        if(visualizzaPrenotazioniReferti.isSelected() && visualizzaTutte.isSelected()){  //visualizza tutte le prenotazioni
+            ModelJTable m=new ModelJTable(this,1,null);
+            this.setVisible(false);
+        }
+        
+        if(jComboReparto.isEnabled() && jComboReparto.getSelectedIndex()!=0){
+            ModelJTable m=new ModelJTable(this,2,(String)jComboReparto.getSelectedItem());
+            this.setVisible(false);
+        }
+        
+        if(jComboPaziente.isEnabled() && jComboPaziente.getSelectedIndex()!=0){
+            ModelJTable m=new ModelJTable(this,3,(String)jComboPaziente.getSelectedItem());
+            this.setVisible(false);
+        }
+        
+        if(jComboID.isEnabled() && jComboID.getSelectedIndex()!=0){
+            ModelJTable m=new ModelJTable(this,4,(String)jComboID.getSelectedItem());
             this.setVisible(false);
         }
        
@@ -278,17 +311,25 @@ public class Amministratore extends javax.swing.JFrame {
 
     private void aggiornaVisiteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aggiornaVisiteActionPerformed
         disabilitaSelezione();
+        jComboReparto.setSelectedIndex(0);
+        jComboPaziente.setSelectedIndex(0);
+        jComboID.setSelectedIndex(0);
     }//GEN-LAST:event_aggiornaVisiteActionPerformed
 
     private void aggiornaPrenotazioniRefertiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aggiornaPrenotazioniRefertiActionPerformed
         // TODO add your handling code here:
        disabilitaSelezione();
+       jComboReparto.setSelectedIndex(0);
+        jComboPaziente.setSelectedIndex(0);
+        jComboID.setSelectedIndex(0);
     }//GEN-LAST:event_aggiornaPrenotazioniRefertiActionPerformed
     
         private void visualizzaPrenotazioniRefertiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_visualizzaPrenotazioniRefertiActionPerformed
         // TODO add your handling code here:
             abilitaSelezione();
-            visualizzaTutte.setSelected(true);
+            jComboReparto.setSelectedIndex(0);
+        jComboPaziente.setSelectedIndex(0);
+        jComboID.setSelectedIndex(0);
     }//GEN-LAST:event_visualizzaPrenotazioniRefertiActionPerformed
 
     private void esciActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_esciActionPerformed
@@ -301,30 +342,31 @@ public class Amministratore extends javax.swing.JFrame {
 
     private void visualizzaRepartoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_visualizzaRepartoActionPerformed
         // TODO add your handling code here:
-        jComboReparto.setEnabled(true);
-        jComboPaziente.setEnabled(false);
-        jComboID.setEnabled(false);
+    
+        jComboPaziente.setSelectedIndex(0);
+        jComboID.setSelectedIndex(0);
     }//GEN-LAST:event_visualizzaRepartoActionPerformed
 
     private void visualizzaPazienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_visualizzaPazienteActionPerformed
         // TODO add your handling code here:
-        jComboReparto.setEnabled(false);
-        jComboPaziente.setEnabled(true);
-        jComboID.setEnabled(false);
+    
+        jComboReparto.setSelectedIndex(0);
+         jComboID.setSelectedIndex(0);
     }//GEN-LAST:event_visualizzaPazienteActionPerformed
 
     private void visualizzaIDPrenotazioneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_visualizzaIDPrenotazioneActionPerformed
         // TODO add your handling code here:
-        jComboReparto.setEnabled(false);
-        jComboPaziente.setEnabled(false);
-        jComboID.setEnabled(true);
+    
+        jComboReparto.setSelectedIndex(0);
+        jComboPaziente.setSelectedIndex(0);
     }//GEN-LAST:event_visualizzaIDPrenotazioneActionPerformed
 
     private void visualizzaTutteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_visualizzaTutteActionPerformed
         // TODO add your handling code here:
-        jComboReparto.setEnabled(false);
-        jComboPaziente.setEnabled(false);
-        jComboID.setEnabled(false);
+   
+        jComboReparto.setSelectedIndex(0);
+        jComboPaziente.setSelectedIndex(0);
+        jComboID.setSelectedIndex(0);
     }//GEN-LAST:event_visualizzaTutteActionPerformed
     
     /**

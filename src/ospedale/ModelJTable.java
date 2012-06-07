@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 package ospedale;
-
+ 
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.event.MouseAdapter;
@@ -18,7 +18,7 @@ import javax.swing.table.DefaultTableModel;
  * @author alex
  */
 public class ModelJTable extends JFrame{
-    private String data_table,ora_table,id_prenot,reparto;
+    private String data_table,ora_table,id_prenot,reparto,info;
     private Paziente paz=null;
     private Amministratore amm=null;
     private DefaultTableModel model;
@@ -26,6 +26,7 @@ public class ModelJTable extends JFrame{
     private JTable table;
     final int identificativo;
     private JRadioButton priorita;
+    private int chiamante;
     
     public ModelJTable(String rep,Paziente p){ ///effettuare prenotazioni (classe Paziente)
         super();
@@ -68,8 +69,10 @@ public class ModelJTable extends JFrame{
        generaGrafica("ELENCO PRENOTAZIONI",paz.getPaziente(),identificativo); 
     }
     
-    public ModelJTable(Amministratore a){
+    public ModelJTable(Amministratore a,int chiam, String inform){
         identificativo=3;
+        chiamante=chiam;
+        info=inform;
         amm=a;
         model = new DefaultTableModel();
         model.addColumn("ID PRENOTAZIONE");
@@ -77,9 +80,19 @@ public class ModelJTable extends JFrame{
         model.addColumn("GIORNO");
         model.addColumn("ORARIO");
         model.addColumn("ID PAZIENTE");
-        
-        popolaTable("select idprenotazione,reparto,data,ora,idpaziente from prenotazioni order by idprenotazione asc;",model.getColumnCount());
-        
+        switch(chiamante){
+            case 1:
+            popolaTable("select idprenotazione,reparto,data,ora,idpaziente from prenotazioni order by idprenotazione asc;",model.getColumnCount());
+            break;
+            case 2:
+            popolaTable("select idprenotazione,reparto,data,ora,idpaziente from prenotazioni where reparto='"+info+"' order by idprenotazione asc;",model.getColumnCount());   
+            break;
+            case 3:
+            popolaTable("select idprenotazione,reparto,data,ora,idpaziente from prenotazioni where idpaziente='"+info+"' order by idprenotazione asc;",model.getColumnCount());     
+            case 4:
+            popolaTable("select idprenotazione,reparto,data,ora,idpaziente from prenotazioni where idprenotazione='"+info+"' order by idprenotazione asc;",model.getColumnCount());
+            break;
+        }
         table = new JTable(model){
             public boolean isCellEditable(int rowIndex, int colIndex) {
                 return false; //Disallow the editing of any cell
@@ -87,6 +100,7 @@ public class ModelJTable extends JFrame{
         };
         generaGrafica("ELENCO PRENOTAZIONI",a.getAmministratore(),identificativo);
     }
+    
     
     private void generaGrafica(String titolo,String utente,final int identificativo){
         JLabel informazioni=new JLabel(titolo);
