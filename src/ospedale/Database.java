@@ -14,8 +14,10 @@ package ospedale;
  * Gestisce l'apertura e la chiusura della connessione col Database
  * Fornisce i metodi per l'esecuzione delle query sul Database
  */
-import java.sql.*;
-import java.util.ArrayList;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.Vector;
 
 public class Database {
@@ -86,7 +88,7 @@ public class Database {
       int adm;
        boolean conn=false;
       try {
-            
+       connetti();     
                  
         com.mysql.jdbc.Statement stmt = (com.mysql.jdbc.Statement) db.createStatement();
             

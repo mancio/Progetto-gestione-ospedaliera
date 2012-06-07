@@ -101,9 +101,11 @@ public class ModelJTable extends JFrame{
         
         switch(identificativo){
             case 1:
-            referto.setEnabled(false); break;
+                referto.setEnabled(false); break;
             case 2:
-            priorita.setEnabled(false); break;
+                priorita.setEnabled(false);
+                conferma.setEnabled(false);
+                break;
         
     }
         esci.addActionListener(new java.awt.event.ActionListener() {
