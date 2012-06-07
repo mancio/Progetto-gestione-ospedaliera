@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
 public class Login extends javax.swing.JFrame {
 private Connection db;
 private Database data; 
-boolean connesso=false;
+private String[] userRequest;
     /**
      * Creates new form Login_form
      */
@@ -149,6 +149,36 @@ boolean connesso=false;
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public void accedi(String ut,String pss){
+        userRequest=data.verificaUtente(ut, pss);
+        
+        if (userRequest != null){
+            String id=userRequest[0];
+            String password=userRequest[1];
+            String nome=userRequest[2];
+            String mail=userRequest[3];
+            String tel=userRequest[4];
+            String indirizzo=userRequest[5];
+            int admin=Integer.parseInt(userRequest[6]);
+                
+        switch(admin){
+            case 0:     //se l'utente è un paziente
+                System.out.println("utente riconosciuto come paziente");
+                Paziente page = new Paziente(id,password,nome,mail,tel,indirizzo,admin);
+                page.setVisible(true);
+                this.setVisible(false);
+                break;
+            case 1:   //se l'utente è un amministratore
+                System.out.println("utente riconosciuto come amministratore");
+                Amministratore a=new Amministratore(id,password,nome,mail,tel,indirizzo,admin);
+                a.setVisible(true);
+                this.setVisible(false);
+        }
+        } else {
+                System.out.println("utente non riconosciuto");
+                JOptionPane.showMessageDialog(null,"Utente non trovato. Non sei registrato? Registrati","Error",JOptionPane.ERROR_MESSAGE);
+        }
+    }
     private void jButtonRegistratiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRegistratiActionPerformed
         Registrazione r = new Registrazione();
         r.setVisible(true);
@@ -165,40 +195,8 @@ boolean connesso=false;
         if (utente.isEmpty() || pass.isEmpty()){
             JOptionPane.showMessageDialog(null,"Inserire dati validi per il login","Error",JOptionPane.ERROR_MESSAGE);
         } else {
-        connesso=data.connettiUtente(utente, pass);
-        
-        
-        if (connesso==true  /*e se è anche paziente*/) {
-            System.out.println("utente riconosciuto");
-            //Paziente page = new Paziente();
-            //page.setVisible(true);
-            //page.setPaziente(utente);
-            this.setVisible(false);
-            
-        }else{
-          System.out.println("utente non riconosciuto");
-          JOptionPane.showMessageDialog(null,"Utente non trovato. Non sei registrato? Registrati","Error",JOptionPane.ERROR_MESSAGE);
+            accedi(utente,pass);        
         }
-        }
-      /* manca il metodo per verificare se è paziente o medico*/
-      
-       
-      
-       
-      /* try{
-        
-          
-           
-           Paziente page = new Paziente();
-           page.setVisible(true);
-           this.setVisible(false);
-           
-       }catch(ClassNotFoundException | SQLException e){
-           
-           JOptionPane.showMessageDialog(null,"Incorrect login or password or server down","Error",JOptionPane.ERROR_MESSAGE);
-           jTextField1.setText("");
-           jPasswordField1.setText("");
-       }*/
     }//GEN-LAST:event_jButtonAccediActionPerformed
 
     /**

@@ -83,10 +83,10 @@ public class Database {
    // colonne: il numero di colonne di cui sarà composta la tupla del risultato
    // ritorna un Vector contenente tutte le tuple del risultato
 
-   public boolean connettiUtente(String utente,String passw) {
-      String cod,pass,nome,mail,tel,res;
-      int adm;
-       boolean conn=false;
+   public String[] verificaUtente(String utente,String passw) {
+      String[] dati=new String[7];
+      // 
+      boolean conn=false;
       try {
        connetti();     
                  
@@ -99,23 +99,16 @@ public class Database {
                 System.out.println(password);
                 if (password.equals(passw)){
                    conn=true;
-                   cod=rs.getString("cod_fisc");
-                    pass=rs.getString("password");
-                    nome=rs.getString("nome");
-                    mail=rs.getString("email");
-                    tel=rs.getString("telefono");
-                    res=rs.getString("residenza");
-                    adm=rs.getInt("is_admin");
+                   dati[0]=rs.getString("cod_fisc");
+                    dati[1]=rs.getString("password");
+                    dati[2]=rs.getString("nome");
+                    dati[3]=rs.getString("email");
+                    dati[4]=rs.getString("telefono");
+                    dati[5]=rs.getString("residenza");
+                    dati[6]=Integer.toString(rs.getInt("is_admin"));
                     
-                    System.out.println(cod+"--"+pass+"--"+nome+"--"+mail+"--"+tel+"--"+res+"--"+adm);
-                    if(adm==0){
-                        ///visualizza form paziente
-                        Paziente p = new Paziente(cod,pass,nome,mail,tel,res,adm);
-                        p.setVisible(true);
-                    }else{
-                        Amministratore a=new Amministratore(cod,pass,nome,mail,tel,res,adm);
-                        a.setVisible(true);
-                    }
+                    System.out.println(dati[0]+"--"+dati[1]+"--"+dati[2]+"--"+dati[3]+"--"+dati[4]+"--"+dati[5]+"--"+dati[6]);
+                    
                 }
             }
             db.close();
@@ -123,8 +116,9 @@ public class Database {
                 
         } catch (Exception e) { System.out.println(e.getMessage()); }
       
-      
-      return conn;
+      if (conn==true){
+            return dati;
+      }else return null;
   }
   public void addUtente(String CF,String passw,String nome, String mail, String tel,String res){
       try {

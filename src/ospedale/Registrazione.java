@@ -17,7 +17,7 @@ import javax.swing.JOptionPane;
  */
 public class Registrazione extends javax.swing.JFrame {
 private Database db;
-private boolean connesso;
+private String[] connesso=new String[7];
     /**
      * Creates new form Registrazione
      */
@@ -273,7 +273,7 @@ private boolean connesso;
 
     private void jButtonRegistratiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRegistratiActionPerformed
                 Connection con = null;
-    
+                connesso=null;
                 
                 /*String url = "jdbc:mysql://localhost:3306/ospedale";*/
                 
@@ -366,7 +366,9 @@ private boolean connesso;
                    
                     //implementare metodo per effettuare login 
                     db.addUtente(Cod_Fisc, Password, Cognome+" "+Nome, Email, Tel, Res);
-                    connesso=db.connettiUtente(Cod_Fisc, Password);
+                    //connesso=db.verificaUtente(Cod_Fisc, Password);
+                   Login l=new Login();
+                   l.accedi(Cod_Fisc, Password);
                     this.setVisible(false);
                     //se si è loggati come PAZIENTE:
                    //new Paziente().setVisible(true);

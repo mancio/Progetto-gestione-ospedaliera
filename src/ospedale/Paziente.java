@@ -5,7 +5,7 @@
 package ospedale;
 
 import javax.swing.JOptionPane;
-  
+   
 /**
  *
  * @author mancio

@@ -3,7 +3,8 @@
  * and open the template in the editor.
  */
 package ospedale;
-
+ 
+import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
 
 /**
@@ -30,6 +31,17 @@ public class Amministratore extends javax.swing.JFrame {
         resid=res;
         is_admin=adm;
         jLabel4.setText(nome);
+        
+        ButtonGroup bg1=new ButtonGroup();
+        bg1.add(aggiornaVisite);
+        bg1.add(aggiornaPrenotazioniReferti);
+        bg1.add(visualizzaPrenotazioniReferti);
+        /*ButtonGroup bg2=new ButtonGroup();
+        bg2.add(visualizzaReparto);
+        bg2.add(visualizzaPaziente);
+        bg2.add(visualizzaIDPrenotazione);
+        bg2.add(visualizzaTutte);
+        disabilitaSelezione();*/
        
        
     }
@@ -46,13 +58,20 @@ public class Amministratore extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
-        jRadioButton3 = new javax.swing.JRadioButton();
+        aggiornaVisite = new javax.swing.JRadioButton();
+        aggiornaPrenotazioniReferti = new javax.swing.JRadioButton();
+        visualizzaPrenotazioniReferti = new javax.swing.JRadioButton();
         conferma = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        esci = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        visualizzaReparto = new javax.swing.JRadioButton();
+        visualizzaPaziente = new javax.swing.JRadioButton();
+        visualizzaIDPrenotazione = new javax.swing.JRadioButton();
+        visualizzaTutte = new javax.swing.JRadioButton();
+        jComboReparto = new javax.swing.JComboBox();
+        jComboPaziente = new javax.swing.JComboBox();
+        jComboID = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -60,24 +79,24 @@ public class Amministratore extends javax.swing.JFrame {
 
         jLabel2.setText("GESTISCI SISTEMA");
 
-        jRadioButton1.setText("Aggiorna lista visite");
-        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
+        aggiornaVisite.setText("Aggiorna lista visite");
+        aggiornaVisite.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton1ActionPerformed(evt);
+                aggiornaVisiteActionPerformed(evt);
             }
         });
 
-        jRadioButton2.setText("Aggiorna lista prenotazioni e referti");
-        jRadioButton2.addActionListener(new java.awt.event.ActionListener() {
+        aggiornaPrenotazioniReferti.setText("Aggiorna lista prenotazioni e referti");
+        aggiornaPrenotazioniReferti.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton2ActionPerformed(evt);
+                aggiornaPrenotazioniRefertiActionPerformed(evt);
             }
         });
 
-        jRadioButton3.setText("Visualizza storico prenotazioni e referti");
-        jRadioButton3.addActionListener(new java.awt.event.ActionListener() {
+        visualizzaPrenotazioniReferti.setText("Visualizza storico prenotazioni e referti");
+        visualizzaPrenotazioniReferti.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton3ActionPerformed(evt);
+                visualizzaPrenotazioniRefertiActionPerformed(evt);
             }
         });
 
@@ -88,14 +107,43 @@ public class Amministratore extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("ESCI");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        esci.setText("ESCI");
+        esci.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                esciActionPerformed(evt);
             }
         });
 
         jLabel3.setText("Benvenuto:");
+
+        visualizzaReparto.setText("per reparto");
+        visualizzaReparto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                visualizzaRepartoActionPerformed(evt);
+            }
+        });
+
+        visualizzaPaziente.setText("per paziente");
+        visualizzaPaziente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                visualizzaPazienteActionPerformed(evt);
+            }
+        });
+
+        visualizzaIDPrenotazione.setText("per ID");
+        visualizzaIDPrenotazione.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                visualizzaIDPrenotazioneActionPerformed(evt);
+            }
+        });
+
+        visualizzaTutte.setText("tutte");
+
+        jComboReparto.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jComboPaziente.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jComboID.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -104,28 +152,39 @@ public class Amministratore extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(conferma))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel4))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(esci))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(118, 118, 118)
+                                .addComponent(jLabel2))
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel4))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(aggiornaPrenotazioniReferti)
+                                    .addComponent(aggiornaVisite)
+                                    .addComponent(visualizzaPrenotazioniReferti)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGap(21, 21, 21)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jRadioButton2)
-                                            .addComponent(jRadioButton1)
-                                            .addComponent(jRadioButton3)
-                                            .addComponent(jButton2)))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(118, 118, 118)
-                                        .addComponent(jLabel2))))
-                            .addComponent(jLabel3))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                                            .addComponent(visualizzaReparto)
+                                            .addComponent(visualizzaPaziente)
+                                            .addComponent(visualizzaIDPrenotazione)
+                                            .addComponent(visualizzaTutte))
+                                        .addGap(31, 31, 31)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jComboID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jComboPaziente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jComboReparto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
+                    .addComponent(jLabel3)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(conferma)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -134,74 +193,115 @@ public class Amministratore extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel3))
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
-                        .addGap(45, 45, 45)
-                        .addComponent(jRadioButton1)
+                        .addGap(31, 31, 31)
+                        .addComponent(aggiornaVisite)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jRadioButton2)
+                        .addComponent(aggiornaPrenotazioniReferti)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jRadioButton3))
-                    .addComponent(jLabel1))
-                .addGap(18, 18, 18)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(visualizzaPrenotazioniReferti)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(visualizzaReparto)
+                            .addComponent(jComboReparto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(visualizzaPaziente)
+                            .addComponent(jComboPaziente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(visualizzaIDPrenotazione)
+                            .addComponent(jComboID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(visualizzaTutte)
+                        .addGap(6, 6, 6)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 9, Short.MAX_VALUE)
+                        .addComponent(jLabel4)
+                        .addGap(0, 75, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 50, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(conferma)
-                            .addComponent(jButton2)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                            .addComponent(esci))))
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void disabilitaSelezione(){
+        visualizzaReparto.setEnabled(false);
+        visualizzaPaziente.setEnabled(false);
+        visualizzaIDPrenotazione.setEnabled(false);
+        visualizzaTutte.setEnabled(false);
+        jComboReparto.setEnabled(false);
+        jComboPaziente.setEnabled(false);
+        jComboID.setEnabled(false);
+    }
+    
+    private void abilitaSelezione(){
+        visualizzaReparto.setEnabled(true);
+        visualizzaPaziente.setEnabled(true);
+        visualizzaIDPrenotazione.setEnabled(true);
+        visualizzaTutte.setEnabled(true);
+    }
+    
     private void confermaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confermaActionPerformed
         // TODO add your handling code here:
-        if(jRadioButton3.isSelected()){
+        if(visualizzaPrenotazioniReferti.isSelected() /*&& visualizzaTutte.isSelected()*/){
             ModelJTable m=new ModelJTable(this);
             this.setVisible(false);
         }
        
     }//GEN-LAST:event_confermaActionPerformed
 
-    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
-        // TODO add your handling code here:
-        jRadioButton1.setSelected(true);
-        if(jRadioButton2.isSelected() || jRadioButton3.isSelected()){
-            jRadioButton2.setSelected(false);
-            jRadioButton3.setSelected(false);
-        }
-    }//GEN-LAST:event_jRadioButton1ActionPerformed
+    private void aggiornaVisiteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aggiornaVisiteActionPerformed
+       // disabilitaSelezione();
+    }//GEN-LAST:event_aggiornaVisiteActionPerformed
 
-    private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
+    private void aggiornaPrenotazioniRefertiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aggiornaPrenotazioniRefertiActionPerformed
         // TODO add your handling code here:
-        jRadioButton2.setSelected(true);
-        if(jRadioButton1.isSelected() || jRadioButton3.isSelected()){
-            jRadioButton1.setSelected(false);
-            jRadioButton3.setSelected(false);
-    }//GEN-LAST:event_jRadioButton2ActionPerformed
-    }
-        private void jRadioButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton3ActionPerformed
+      // disabilitaSelezione();
+    }//GEN-LAST:event_aggiornaPrenotazioniRefertiActionPerformed
+    
+        private void visualizzaPrenotazioniRefertiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_visualizzaPrenotazioniRefertiActionPerformed
         // TODO add your handling code here:
-            jRadioButton3.setSelected(true);
-        if(jRadioButton1.isSelected() || jRadioButton2.isSelected()){
-            jRadioButton1.setSelected(false);
-            jRadioButton2.setSelected(false);
-        }
-    }//GEN-LAST:event_jRadioButton3ActionPerformed
+           // abilitaSelezione();
+    }//GEN-LAST:event_visualizzaPrenotazioniRefertiActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void esciActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_esciActionPerformed
         // TODO add your handling code here:
         
         Login l=new Login();
         l.setVisible(true);
         this.setVisible(false);
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_esciActionPerformed
+
+    private void visualizzaRepartoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_visualizzaRepartoActionPerformed
+        // TODO add your handling code here:
+        /*jComboReparto.setEnabled(true);
+        jComboPaziente.setEnabled(false);
+        jComboID.setEnabled(false);*/
+    }//GEN-LAST:event_visualizzaRepartoActionPerformed
+
+    private void visualizzaPazienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_visualizzaPazienteActionPerformed
+        // TODO add your handling code here:
+        /*jComboReparto.setEnabled(false);
+        jComboPaziente.setEnabled(true);
+        jComboID.setEnabled(false);*/
+    }//GEN-LAST:event_visualizzaPazienteActionPerformed
+
+    private void visualizzaIDPrenotazioneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_visualizzaIDPrenotazioneActionPerformed
+        // TODO add your handling code here:
+        /*jComboReparto.setEnabled(false);
+        jComboPaziente.setEnabled(false);
+        jComboID.setEnabled(true);*/
+    }//GEN-LAST:event_visualizzaIDPrenotazioneActionPerformed
     
     /**
      * @param args the command line arguments
@@ -240,19 +340,26 @@ public class Amministratore extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             public void run() {
-                new Amministratore().setVisible(true);
+               // new Amministratore().setVisible(true);
             }
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JRadioButton aggiornaPrenotazioniReferti;
+    private javax.swing.JRadioButton aggiornaVisite;
     private javax.swing.JButton conferma;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton esci;
+    private javax.swing.JComboBox jComboID;
+    private javax.swing.JComboBox jComboPaziente;
+    private javax.swing.JComboBox jComboReparto;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
-    private javax.swing.JRadioButton jRadioButton3;
+    private javax.swing.JRadioButton visualizzaIDPrenotazione;
+    private javax.swing.JRadioButton visualizzaPaziente;
+    private javax.swing.JRadioButton visualizzaPrenotazioniReferti;
+    private javax.swing.JRadioButton visualizzaReparto;
+    private javax.swing.JRadioButton visualizzaTutte;
     // End of variables declaration//GEN-END:variables
 }
