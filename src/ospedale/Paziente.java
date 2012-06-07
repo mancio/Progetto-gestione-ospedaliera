@@ -192,18 +192,14 @@ public class Paziente extends javax.swing.JFrame {
         if (jRadioButtonPrenota.isSelected() && jComboBoxReparti.getSelectedIndex() != 0){
                 if(jComboBoxReparti.getSelectedIndex()==1){
                     ModelJTable p=new ModelJTable("ortopedia",this);
-                    p.setVisible(true);
                     this.setVisible(false);
                 }else{
                     ModelJTable p=new ModelJTable("pediatria",this);
-                    p.setVisible(true);
                     this.setVisible(false);
                 }
         }
         if (jRadioButtonPrenota.isSelected()==false && jRadioButtonStorico.isSelected()){
-            ModelJTable s=new ModelJTable(this);
-            s.setVisible(true);
-            
+            ModelJTable s=new ModelJTable(this);          
             this.setVisible(false);
         }
     }//GEN-LAST:event_jButtonConfermaActionPerformed

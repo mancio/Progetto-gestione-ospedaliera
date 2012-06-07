@@ -20,6 +20,7 @@ import javax.swing.table.DefaultTableModel;
 public class ModelJTable extends JFrame{
     private String data_table,ora_table,id_prenot,reparto;
     private Paziente paz=null;
+    private Amministratore amm=null;
     private DefaultTableModel model;
     private Database db=new Database("ospedale","root","lilli");
     private JTable table;
@@ -67,6 +68,25 @@ public class ModelJTable extends JFrame{
        generaGrafica("ELENCO PRENOTAZIONI",paz.getPaziente(),identificativo); 
     }
     
+    public ModelJTable(Amministratore a){
+        identificativo=3;
+        amm=a;
+        model = new DefaultTableModel();
+        model.addColumn("ID PRENOTAZIONE");
+        model.addColumn("REPARTO");
+        model.addColumn("GIORNO");
+        model.addColumn("ORARIO");
+        model.addColumn("ID PAZIENTE");
+        
+        popolaTable("select idprenotazione,reparto,data,ora,idpaziente from prenotazioni order by idprenotazione asc;",model.getColumnCount());
+        
+        table = new JTable(model){
+            public boolean isCellEditable(int rowIndex, int colIndex) {
+                return false; //Disallow the editing of any cell
+            }
+        };
+        generaGrafica("ELENCO PRENOTAZIONI",a.getAmministratore(),identificativo);
+    }
     
     private void generaGrafica(String titolo,String utente,final int identificativo){
         JLabel informazioni=new JLabel(titolo);
@@ -103,6 +123,7 @@ public class ModelJTable extends JFrame{
             case 1:
                 referto.setEnabled(false); break;
             case 2:
+            case 3:
                 priorita.setEnabled(false);
                 conferma.setEnabled(false);
                 break;
@@ -134,7 +155,8 @@ public class ModelJTable extends JFrame{
             switch (identificativo){
                 case 1:
                 selezionaData(me); break;
-                case 2:            
+                case 2:
+                case 3:
                 selezionaPrenotazione(me); break;
             }
         }
@@ -151,15 +173,18 @@ public class ModelJTable extends JFrame{
             while(rs.next()){    
                 switch (numColonne){
                     case 2:
-                    //System.out.println(rs.getString("data")+"  -  "+rs.getString("ora"));
-                    String[] stringa2={rs.getString(1),rs.getString(2)};
-                    model.addRow(stringa2);
-                    break;
-                    case 4:
-                    String[] stringa4={rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4)};
-                    model.addRow(stringa4);
+                        //System.out.println(rs.getString("data")+"  -  "+rs.getString("ora"));
+                        String[] stringa2={rs.getString(1),rs.getString(2)};
+                        model.addRow(stringa2);
                         break;
-                        
+                    case 4:
+                        String[] stringa4={rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4)};
+                        model.addRow(stringa4);
+                        break;
+                    case 5:
+                       String[] stringa5={rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5)};
+                       model.addRow(stringa5);
+                       break;
                 }
             }
             rs.close(); 
@@ -179,7 +204,11 @@ public class ModelJTable extends JFrame{
             case 2:        
                 paz.setVisible(true);
                 this.setVisible(false);
-            break;
+                break;
+            case 3:
+                amm.setVisible(true);
+                this.setVisible(false);
+                break;
         }
   }
     
@@ -188,6 +217,7 @@ public class ModelJTable extends JFrame{
         ResultSet rs;
         switch(identificativo){
             case 2:
+            case 3:
                 if (id_prenot==null){
                     JOptionPane.showMessageDialog(null,"Effettua una scelta prima di proseguire");
                 }else{
