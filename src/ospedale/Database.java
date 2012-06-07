@@ -82,7 +82,10 @@ public class Database {
    // query: una stringa che rappresenta un'istruzione SQL di tipo SELECT da eseguire
    // colonne: il numero di colonne di cui sarà composta la tupla del risultato
    // ritorna un Vector contenente tutte le tuple del risultato
-
+   
+   
+   
+   
    public String[] verificaUtente(String utente,String passw) {
       String[] dati=new String[7];
       // 
@@ -138,6 +141,7 @@ public class Database {
       String [] record;
       int colonne = 0;
       try {
+          connetti();
          Statement stmt = db.createStatement();     // Creo lo Statement per l'esecuzione della query
          rs = stmt.executeQuery(query);   // Ottengo il ResultSet dell'esecuzione della query
          /*a1 = new Vector();
