@@ -106,7 +106,9 @@ public class ModelJTable extends JFrame{
                 return false; //Disallow the editing of any cell
             }
         };
-        generaGrafica("ELENCO PRENOTAZIONI",a.getAmministratore(),identificativo);
+        
+            generaGrafica("ELENCO PRENOTAZIONI",a.getAmministratore(),identificativo);
+        
     }
     
     public ModelJTable(Amministratore a){
@@ -156,12 +158,17 @@ public class ModelJTable extends JFrame{
         
         switch(identificativo){
             case 1:
-                referto.setEnabled(false); break;
+                referto.setEnabled(false); 
+                container.add(inputPanel1,BorderLayout.NORTH);
+                container.add(new JScrollPane(table), BorderLayout.CENTER);
+                break;
             case 2:
             case 3:
                 priorita.setEnabled(false);
                 conferma.setEnabled(false);
                 this.setTitle("ELENCO PRENOTAZIONI");
+                container.add(inputPanel1,BorderLayout.NORTH);
+                container.add(new JScrollPane(table), BorderLayout.CENTER);
                 break;
             case 4:
                 priorita.setEnabled(false);
@@ -189,12 +196,13 @@ public class ModelJTable extends JFrame{
                 col.setCellEditor(new MyComboBoxEditor(values2));
                 container.add(new JScrollPane(table2), BorderLayout.CENTER);
                 this.setTitle("MODIFICA VISITE");
+                container.add(new JScrollPane(table), BorderLayout.NORTH);
                 break;  
                 
                 
     }
-        container.add(inputPanel1,BorderLayout.NORTH);
-        container.add(new JScrollPane(table), BorderLayout.NORTH);
+        
+        
         
         container.add(inputPanel2,BorderLayout.AFTER_LAST_LINE);
         
