@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 package ospedale;
- 
+
 import java.sql.ResultSet;
 import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
@@ -307,6 +307,15 @@ public class Amministratore extends javax.swing.JFrame {
             this.setVisible(false);
         }
        
+        if(aggiornaVisite.isSelected()){
+            ModelJTable m=new ModelJTable(this);
+            this.setVisible(false);
+        }
+        
+        if (aggiornaPrenotazioniReferti.isSelected()){
+            ModelJTable m=new ModelJTable(this);
+            this.setVisible(false);
+        }
     }//GEN-LAST:event_confermaActionPerformed
 
     private void aggiornaVisiteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aggiornaVisiteActionPerformed

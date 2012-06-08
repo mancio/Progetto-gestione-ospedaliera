@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 
 /**
  *
@@ -23,7 +24,7 @@ public class ModelJTable extends JFrame{
     private Amministratore amm=null;
     private DefaultTableModel model;
     private Database db=new Database("ospedale","root","lilli");
-    private JTable table;
+    private JTable table, table2;
     final int identificativo;
     private JRadioButton priorita;
     private int chiamante;
@@ -79,19 +80,21 @@ public class ModelJTable extends JFrame{
         model.addColumn("REPARTO");
         model.addColumn("GIORNO");
         model.addColumn("ORARIO");
+        model.addColumn("PRIORITÀ");
         model.addColumn("ID PAZIENTE");
+        
         switch(chiamante){
             case 1:
-            popolaTable("select idprenotazione,reparto,data,ora,idpaziente from prenotazioni order by idprenotazione asc;",model.getColumnCount());
+            popolaTable("select idprenotazione,reparto,data,ora,priorita,idpaziente from prenotazioni order by idprenotazione asc;",model.getColumnCount());
             break;
             case 2:
-            popolaTable("select idprenotazione,reparto,data,ora,idpaziente from prenotazioni where reparto='"+info+"' order by idprenotazione asc;",model.getColumnCount());   
+            popolaTable("select idprenotazione,reparto,data,ora,priorita,idpaziente from prenotazioni where reparto='"+info+"' order by idprenotazione asc;",model.getColumnCount());   
             break;
             case 3:
-            popolaTable("select idprenotazione,reparto,data,ora,idpaziente from prenotazioni where idpaziente='"+info+"' order by idprenotazione asc;",model.getColumnCount());     
+            popolaTable("select idprenotazione,reparto,data,ora,priorita,idpaziente from prenotazioni where idpaziente='"+info+"' order by idprenotazione asc;",model.getColumnCount());     
             break;
             case 4:
-            popolaTable("select idprenotazione,reparto,data,ora,idpaziente from prenotazioni where idprenotazione='"+info+"';",model.getColumnCount());
+            popolaTable("select idprenotazione,reparto,data,ora,priorita,idpaziente from prenotazioni where idprenotazione='"+info+"';",model.getColumnCount());
             break;
         }
         table = new JTable(model){
@@ -100,6 +103,26 @@ public class ModelJTable extends JFrame{
             }
         };
         generaGrafica("ELENCO PRENOTAZIONI",a.getAmministratore(),identificativo);
+    }
+    
+    public ModelJTable(Amministratore a){
+        identificativo=4;
+        amm=a;
+        model = new DefaultTableModel();
+        model.addColumn("REPARTO");
+        model.addColumn("GIORNO");
+        model.addColumn("ORARIO");
+        model.addColumn("PRIORITÀ");
+        
+        popolaTable("select * from visite;",model.getColumnCount());
+        table = new JTable(model){
+        public boolean isCellEditable(int rowIndex, int colIndex) {
+            return false; //Disallow the editing of any cell
+        }
+    };  
+  
+        generaGrafica("GESTIONE DELLE VISITE",amm.getAmministratore(),identificativo);
+        
     }
     
     
@@ -119,20 +142,13 @@ public class ModelJTable extends JFrame{
         
         JPanel inputPanel1 = new JPanel();
         JPanel inputPanel2 = new JPanel();
-        
         inputPanel1.add(informazioni);
         inputPanel2.add(user);
         inputPanel2.add(esci);
         inputPanel2.add(indietro);
         inputPanel2.add(priorita);
         inputPanel2.add(referto);
-        inputPanel2.add(conferma);
-        container.add(inputPanel1,BorderLayout.NORTH);
-        container.add(new JScrollPane(table), BorderLayout.CENTER);
-        container.add(inputPanel2,BorderLayout.AFTER_LAST_LINE);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(600, 500);
-        setVisible(true);
+        inputPanel2.add(conferma); 
         
         switch(identificativo){
             case 1:
@@ -141,9 +157,50 @@ public class ModelJTable extends JFrame{
             case 3:
                 priorita.setEnabled(false);
                 conferma.setEnabled(false);
+                this.setTitle("ELENCO PRENOTAZIONI");
                 break;
-        
+            case 4:
+                priorita.setEnabled(false);
+                conferma.setText("AGGIUNGI");
+                referto.setText("RIMUOVI");
+                DefaultTableModel model2=new DefaultTableModel();
+                model2.addColumn("REPARTO");
+                model2.addColumn("GIORNO");
+                model2.addColumn("ORARIO");
+                model2.addColumn("PRIORITÀ");
+                model2.addRow(new String[4]);
+                table2 = new JTable(model2){
+                public boolean isCellEditable(int rowIndex, int colIndex) {
+                    return true; //Disallow the editing of any cell
+                }
+                };
+                String[] values1 = new String[]{"ortopedia", "pediatria"};
+                String[] values2 = new String[]{"0","1"};
+                // Set the combobox editor on the 1st visible column
+                int vColIndex = 0;
+                TableColumn col = table2.getColumnModel().getColumn(vColIndex);
+                col.setCellEditor(new MyComboBoxEditor(values1));
+                vColIndex=3;
+                col = table2.getColumnModel().getColumn(vColIndex);
+                col.setCellEditor(new MyComboBoxEditor(values2));
+                container.add(new JScrollPane(table2), BorderLayout.CENTER);
+                this.setTitle("MODIFICA VISITE");
+                break;  
+                
+                
     }
+        container.add(inputPanel1,BorderLayout.NORTH);
+        container.add(new JScrollPane(table), BorderLayout.NORTH);
+        
+        container.add(inputPanel2,BorderLayout.AFTER_LAST_LINE);
+        
+        
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setSize(650, 530);
+        setVisible(true);
+        
+        
+        
         esci.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 esciActionPerformed(evt);
@@ -173,6 +230,8 @@ public class ModelJTable extends JFrame{
                 case 2:
                 case 3:
                 selezionaPrenotazione(me); break;
+                case 4:
+                selezionaVisita(me); break;
             }
         }
     });
@@ -200,6 +259,10 @@ public class ModelJTable extends JFrame{
                        String[] stringa5={rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5)};
                        model.addRow(stringa5);
                        break;
+                    case 6: 
+                       String[] stringa6={rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6)};
+                       model.addRow(stringa6);
+                       break;
                 }
             }
             rs.close(); 
@@ -221,9 +284,12 @@ public class ModelJTable extends JFrame{
                 this.setVisible(false);
                 break;
             case 3:
+            case 4:
                 amm.setVisible(true);
                 this.setVisible(false);
                 break;
+           
+               
         }
   }
     
@@ -253,6 +319,19 @@ public class ModelJTable extends JFrame{
             
            }
             break;
+            
+            case 4:
+                if(reparto==null){
+                    JOptionPane.showMessageDialog(null,"Effettua una scelta prima di proseguire");
+                }else{
+                    db.connetti();
+                    SQL="delete from visite where reparto='"+reparto+"' and data='"+data_table+"' and ora='"+ora_table+"';";
+                    boolean ris=db.eseguiAggiornamento(SQL);
+                    if (ris==true) System.out.println("ok");
+                    popolaTable("select * from visite",4);
+                }
+                
+                
         }
     }
     
@@ -293,13 +372,16 @@ public class ModelJTable extends JFrame{
                     db.disconnetti();
                 }
                 break;
+            case 4: //inserimento nuova data
+                
+                break;
         }
     }
     
     private void selezionaData(MouseEvent me){
         data_table = (String) table.getValueAt(table.getSelectedRow(), 0);
        ora_table = (String) table.getValueAt(table.getSelectedRow(), 1);
-       if((data_table.length() != 0) && (ora_table.length() != 0)) {
+       if((data_table!=null) && (ora_table!=null)) {
            JOptionPane.showMessageDialog(null,"Contenuto riga selezionata: "+data_table+" "+ora_table);
         }
     }
@@ -312,5 +394,23 @@ public class ModelJTable extends JFrame{
            
        }
      
+    }
+    
+    private void selezionaVisita(MouseEvent me){
+        reparto = (String) table.getValueAt(table.getSelectedRow(), 0);
+        data_table=(String) table.getValueAt(table.getSelectedRow(), 1);
+        ora_table=(String) table.getValueAt(table.getSelectedRow(), 2);
+       if(reparto!=null) {
+           JOptionPane.showMessageDialog(null,"Contenuto riga selezionata: "+reparto+" "+data_table+" "+ora_table);
+        
+           
+       }
+     
+    }
+} 
+
+class MyComboBoxEditor extends DefaultCellEditor {
+    public MyComboBoxEditor(String[] items) {
+        super(new JComboBox(items));
     }
 }
