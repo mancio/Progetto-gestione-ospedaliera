@@ -10,6 +10,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -19,7 +23,7 @@ import javax.swing.table.TableColumn;
  * @author alex
  */
 public class ModelJTable extends JFrame{
-    private String data_table,ora_table,id_prenot,reparto,info;
+    private String data_table,ora_table,id_prenot,reparto,info,prior;
     private Paziente paz=null;
     private Amministratore amm=null;
     private DefaultTableModel model;
@@ -373,7 +377,25 @@ public class ModelJTable extends JFrame{
                 }
                 break;
             case 4: //inserimento nuova data
-                
+                reparto=(String) table2.getValueAt(table2.getSelectedRow(), 0);
+                data_table = (String) table2.getValueAt(table2.getSelectedRow(), 1);
+                ora_table = (String) table2.getValueAt(table2.getSelectedRow(), 2);
+                prior = (String) table2.getValueAt(table2.getSelectedRow(), 3);
+                int p=Integer.parseInt(prior);
+                if (isValidDate(data_table)==false){
+                    JOptionPane.showMessageDialog(null,"Inserire la data nella forma gg/mm/aaaa");                                  
+                }
+                boolean corretta=oraSyntaxCheck(ora_table); 
+                if(corretta==false){
+                    JOptionPane.showMessageDialog(null,"Inserire l'ora nella forma hh:mm");
+                }
+                if(isValidDate(data_table) && corretta){
+                    db.connetti();
+                    SQL="insert into visite (reparto,data,ora,priorita) values ('"+reparto+"','"+data_table+"','"+ora_table+"','"+p+"');";
+                    boolean ris=db.eseguiAggiornamento(SQL);
+                    popolaTable("select * from visite;",4);
+                }
+                db.disconnetti();
                 break;
         }
     }
@@ -406,6 +428,48 @@ public class ModelJTable extends JFrame{
            
        }
      
+    }
+    
+  private boolean isValidDate(String inDate) {
+
+    if (inDate == null)
+      return false;
+
+    //set the format to use as a constructor argument
+    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    
+    if (inDate.trim().length() != dateFormat.toPattern().length())
+      return false;
+
+    dateFormat.setLenient(false);
+    
+    try {
+      //parse the inDate parameter
+      dateFormat.parse(inDate.trim());
+    }
+    catch (ParseException pe) {
+      return false;
+    }
+    return true;
+  }
+  
+  private boolean oraSyntaxCheck(String orario)
+   {
+        // Create the Pattern using the regex
+        Pattern p1 = Pattern.compile("[0-1]+[0-9]+:+[0-5]+[0-9]");
+        Pattern p2= Pattern.compile("[2]+[0-3]+:[0-5]+[0-9]");
+        // Match the given string with the pattern
+        Matcher m1 = p1.matcher(orario);
+        Matcher m2= p2.matcher(orario);
+ 
+        // check whether match is found
+        boolean matchFound1 = m1.matches();
+        boolean matchFound2 = m2.matches();
+        
+        if( matchFound1 || matchFound2){
+            return true;
+        }else return false;
+ 
     }
 } 
 
