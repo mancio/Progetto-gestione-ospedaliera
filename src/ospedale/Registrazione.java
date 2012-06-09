@@ -274,6 +274,7 @@ private String[] connesso=new String[7];
     private void jButtonRegistratiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRegistratiActionPerformed
                 Connection con = null;
                 connesso=null;
+                boolean esistente=false;
                 
                 /*String url = "jdbc:mysql://localhost:3306/ospedale";*/
                 
@@ -296,6 +297,13 @@ private String[] connesso=new String[7];
                     jLabel4.setForeground(Color.RED);
                     dati_corretti[0]=false;
                 }
+               /* if(db.isUtente(Cod_Fisc)==true){
+                    jLabel4.setText("Utente già registrato");
+                    jLabel4.setForeground(Color.RED);
+                    dati_corretti[0]=false;
+                }*/
+                
+                
                 String Nome= jTextField3.getText();
                 jLabel3.setText("(obbligatorio)");
                 jLabel3.setForeground(Color.BLACK);
@@ -365,11 +373,17 @@ private String[] connesso=new String[7];
                 if(errori==0){
                    
                     //implementare metodo per effettuare login 
-                    db.addUtente(Cod_Fisc, Password, Cognome+" "+Nome, Email, Tel, Res);
+                    boolean aggiunto=db.addUtente(Cod_Fisc, Password, Cognome+" "+Nome, Email, Tel, Res);
                     //connesso=db.verificaUtente(Cod_Fisc, Password);
-                   Login l=new Login();
+                   if(aggiunto==true){
+                    Login l=new Login();
                    l.accedi(Cod_Fisc, Password);
                     this.setVisible(false);
+                   }else {
+                    jLabel4.setText("Utente già registrato");
+                    jLabel4.setForeground(Color.RED);
+                    JOptionPane.showMessageDialog(null,"Il codice fiscale è già presente");
+                   }
                     //se si è loggati come PAZIENTE:
                    //new Paziente().setVisible(true);
                    //this.setVisible(false);           

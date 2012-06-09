@@ -123,17 +123,44 @@ public class Database {
             return dati;
       }else return null;
   }
-  public void addUtente(String CF,String passw,String nome, String mail, String tel,String res){
+  public boolean addUtente(String CF,String passw,String nome, String mail, String tel,String res){
+      connetti();
+      boolean esistente=isUtente(CF);
+      if(esistente==false){
       try {
             
                  
         com.mysql.jdbc.Statement stmt = (com.mysql.jdbc.Statement) db.createStatement();
         String SQL="INSERT INTO utenti(cod_fisc, nome, password, email, telefono, residenza, is_admin) VALUES('"+CF+"','"+nome+"','"+passw+"','"+mail+"','"+tel+"','"+res+"',0)"; 
         stmt.executeUpdate(SQL);
-            
+         
         } catch (Exception e) { System.out.println(e.getMessage()); }
+      return true;  
+      } else return false;
+      
   }
    
+  public boolean isUtente(String CF){
+      System.out.println("immesso:"+CF);
+      boolean esistente=false;
+      String cod=null;
+      try{
+          connetti();
+          com.mysql.jdbc.Statement stmt = (com.mysql.jdbc.Statement) db.createStatement();     
+            
+          ResultSet rs= stmt.executeQuery("select cod_fisc from utenti;");
+          while(rs.next()){
+              cod=rs.getString("cod_fisc");
+              System.out.println(cod);
+              if(cod.equals(CF)){
+                  esistente=true;
+              }
+          }
+         
+      }catch (Exception e) { System.out.println(e.getMessage()); }
+      System.out.println(esistente);
+      return esistente;
+  }
    
    public ResultSet eseguiQuery(String query) {
       ResultSet rs=null;
