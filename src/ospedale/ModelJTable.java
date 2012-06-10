@@ -6,6 +6,7 @@ package ospedale;
  
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
@@ -166,6 +167,7 @@ public class ModelJTable extends JFrame{
         model2=new DefaultTableModel();
         table.setColumnSelectionAllowed(false);
         table.setRowSelectionAllowed(true);
+        
     
         Container container = getContentPane();
         
@@ -218,8 +220,10 @@ public class ModelJTable extends JFrame{
                 vColIndex=3;
                 col = table2.getColumnModel().getColumn(vColIndex);
                 col.setCellEditor(new MyComboBoxEditor(values2));
-                container.add(new JScrollPane(table2), BorderLayout.CENTER);
-                this.setTitle("MODIFICA VISITE");
+                JScrollPane J2=new JScrollPane(table2);
+                J2.setPreferredSize(new Dimension(620,40));
+                container.add(J2, BorderLayout.CENTER);
+                this.setTitle("MODIFICA VISITE");               
                 container.add(new JScrollPane(table), BorderLayout.NORTH);
                 break;  
             case 5:
@@ -239,9 +243,11 @@ public class ModelJTable extends JFrame{
                 table.setRowSelectionAllowed(true);
                 container.add(new JScrollPane(table2), BorderLayout.CENTER);
                 this.setTitle("MODIFICA PRENOTAZIONI");
-                container.add(new JScrollPane(table), BorderLayout.NORTH);
+                JScrollPane J1=new JScrollPane(table);
+                J1.setPreferredSize(new Dimension(620,270));
+                container.add(J1, BorderLayout.NORTH);
                 break;
-                
+                 
     }
         
         
@@ -250,8 +256,9 @@ public class ModelJTable extends JFrame{
         
         
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(650, 530);
+        setSize(850, 530);
         setVisible(true);
+        setResizable(false);
         
         
         
