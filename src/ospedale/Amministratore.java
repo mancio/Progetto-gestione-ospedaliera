@@ -313,7 +313,7 @@ public class Amministratore extends javax.swing.JFrame {
         }
         
         if (aggiornaPrenotazioniReferti.isSelected()){
-            ModelJTable m=new ModelJTable(this,1,"modifica");
+            ModelJTable m=new ModelJTable(this,5);
             this.setVisible(false);
         }
     }//GEN-LAST:event_confermaActionPerformed

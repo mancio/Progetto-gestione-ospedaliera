@@ -26,7 +26,7 @@ public class ModelJTable extends JFrame{
     private String data_table,ora_table,id_prenot,reparto,info,prior;
     private Paziente paz=null;
     private Amministratore amm=null;
-    private DefaultTableModel model;
+    private DefaultTableModel model,model2;
     private Database db=new Database("ospedale","root","lilli");
     private JTable table, table2;
     final int identificativo;
@@ -89,16 +89,16 @@ public class ModelJTable extends JFrame{
         
         switch(chiamante){
             case 1:
-            popolaTable("select idprenotazione,reparto,data,ora,priorita,idpaziente from prenotazioni order by idprenotazione asc;",model.getColumnCount());
+            popolaTable("select * from prenotazioni order by idprenotazione asc;",model.getColumnCount());
             break;
             case 2:
-            popolaTable("select idprenotazione,reparto,data,ora,priorita,idpaziente from prenotazioni where reparto='"+info+"' order by idprenotazione asc;",model.getColumnCount());   
+            popolaTable("select * from prenotazioni where reparto='"+info+"' order by idprenotazione asc;",model.getColumnCount());   
             break;
             case 3:
-            popolaTable("select idprenotazione,reparto,data,ora,priorita,idpaziente from prenotazioni where idpaziente='"+info+"' order by idprenotazione asc;",model.getColumnCount());     
+            popolaTable("select * from prenotazioni where idpaziente='"+info+"' order by idprenotazione asc;",model.getColumnCount());     
             break;
             case 4:
-            popolaTable("select idprenotazione,reparto,data,ora,priorita,idpaziente from prenotazioni where idprenotazione='"+info+"';",model.getColumnCount());
+            popolaTable("select * from prenotazioni where idprenotazione='"+info+"';",model.getColumnCount());
             break;
         }
         table = new JTable(model){
@@ -106,7 +106,9 @@ public class ModelJTable extends JFrame{
                 return false; //Disallow the editing of any cell
             }
         };
-        
+           
+                
+     
             generaGrafica("ELENCO PRENOTAZIONI",a.getAmministratore(),identificativo);
         
     }
@@ -131,6 +133,27 @@ public class ModelJTable extends JFrame{
         
     }
     
+    public ModelJTable(Amministratore a,int i){
+        identificativo=i; // (=5)
+        amm=a;
+        model = new DefaultTableModel();
+        model.addColumn("ID PRENOTAZIONE");
+        model.addColumn("REPARTO");
+        model.addColumn("DATA (aaaa-mm-gg)");
+        model.addColumn("ORARIO");
+        model.addColumn("PRIORITÀ");
+        model.addColumn("ID PAZIENTE");
+        
+        popolaTable("select * from prenotazioni where priorita='1' order by reparto,data,ora;",model.getColumnCount());
+        table = new JTable(model){
+        public boolean isCellEditable(int rowIndex, int colIndex) {
+            return false; //Disallow the editing of any cell
+        }
+    };
+        
+        generaGrafica("GESTIONE DELLE PRENOTAZIONI",amm.getAmministratore(),identificativo);
+    }
+    
     
     private void generaGrafica(String titolo,String utente,final int identificativo){
         JLabel informazioni=new JLabel(titolo);
@@ -140,7 +163,7 @@ public class ModelJTable extends JFrame{
         priorita=new JRadioButton("Richiedi Priorità");
         JButton referto=new JButton("REFERTO");
         JButton conferma=new JButton("CONFERMA");
-        
+        model2=new DefaultTableModel();
         table.setColumnSelectionAllowed(false);
         table.setRowSelectionAllowed(true);
     
@@ -174,7 +197,7 @@ public class ModelJTable extends JFrame{
                 priorita.setEnabled(false);
                 conferma.setText("AGGIUNGI");
                 referto.setText("RIMUOVI");
-                DefaultTableModel model2=new DefaultTableModel();
+                model2=new DefaultTableModel();
                 model2.addColumn("REPARTO");
                 model2.addColumn("DATA (aaaa-mm-gg)");
                 model2.addColumn("ORARIO");
@@ -185,6 +208,7 @@ public class ModelJTable extends JFrame{
                     return true; //Disallow the editing of any cell
                 }
                 };
+                
                 String[] values1 = new String[]{"ortopedia", "pediatria"};
                 String[] values2 = new String[]{"0","1"};
                 // Set the combobox editor on the 1st visible column
@@ -198,7 +222,25 @@ public class ModelJTable extends JFrame{
                 this.setTitle("MODIFICA VISITE");
                 container.add(new JScrollPane(table), BorderLayout.NORTH);
                 break;  
-                
+            case 5:
+                priorita.setEnabled(false);
+                 model2=new DefaultTableModel();
+                model2.addColumn("REPARTO");
+                model2.addColumn("DATA (aaaa-mm-gg)");
+                model2.addColumn("ORARIO");
+                model2.addColumn("PRIORITÀ");
+                model2.addRow(new String[4]);
+                table2 = new JTable(model2){
+                public boolean isCellEditable(int rowIndex, int colIndex) {
+                    return false; //Disallow the editing of any cell
+                }
+                };
+                 table.setColumnSelectionAllowed(false);
+                table.setRowSelectionAllowed(true);
+                container.add(new JScrollPane(table2), BorderLayout.CENTER);
+                this.setTitle("MODIFICA PRENOTAZIONI");
+                container.add(new JScrollPane(table), BorderLayout.NORTH);
+                break;
                 
     }
         
@@ -241,9 +283,11 @@ public class ModelJTable extends JFrame{
                 selezionaData(me); break;
                 case 2:
                 case 3:
-                selezionaPrenotazione(me); break;
+                selezionaPrenotazione(me,2,null); break;
                 case 4:
                 selezionaVisita(me); break;
+                case 5:
+                   selezionaPrenotazione(me,5,model2); break; 
             }
         }
     });
@@ -282,6 +326,23 @@ public class ModelJTable extends JFrame{
         }catch(SQLException e){ System.out.println(e); }
     }
     
+    private void popolaTable(String query){
+        String SQL=query;
+        try {
+            model2.setRowCount(0); //svuota la tabella
+            db.connetti();
+            ResultSet rs2 = db.eseguiQuery(SQL);            
+            while(rs2.next()){ 
+                String[] stringa={rs2.getString(1),rs2.getString(2),rs2.getString(3),rs2.getString(4)};
+                        model2.addRow(stringa);
+            }
+            rs2.close(); 
+            db.disconnetti();
+    }catch(SQLException e){ System.out.println(e); }
+        catch(NullPointerException e1){System.out.println(e1);}
+    
+    }
+    
     private void esciActionPerformed(java.awt.event.ActionEvent evt){
       this.setVisible(false);
       Login l=new Login();
@@ -297,6 +358,7 @@ public class ModelJTable extends JFrame{
                 break;
             case 3:
             case 4:
+            case 5:
                 amm.setVisible(true);
                 this.setVisible(false);
                 break;
@@ -436,11 +498,36 @@ public class ModelJTable extends JFrame{
         }
     }
     
-    private void selezionaPrenotazione(MouseEvent me){
+    private void selezionaPrenotazione(MouseEvent me,int id,DefaultTableModel model2){
+       
         id_prenot = (String) table.getValueAt(table.getSelectedRow(), 0);
        if(id_prenot!=null) {
            JOptionPane.showMessageDialog(null,"Contenuto riga selezionata: "+id_prenot);
-        
+        switch(id){
+            case 5:
+                System.out.println("5");
+              reparto= (String) table.getValueAt(table.getSelectedRow(), 1);
+              data_table=(String) table.getValueAt(table.getSelectedRow(), 2);
+              ora_table=(String) table.getValueAt(table.getSelectedRow(), 3);
+                prior=(String) table.getValueAt(table.getSelectedRow(), 4);
+                System.out.println(reparto+data_table+ora_table+prior);
+                String SQL="select * from visite where reparto ='"+reparto+"' and data <='"+data_table+"' and ora <='"+ora_table+"' order by data,ora asc;";
+                System.out.println(SQL);
+                try {
+            model2.setRowCount(0); //svuota la tabella
+            db.connetti();
+            ResultSet rs2 = db.eseguiQuery(SQL);            
+            while(rs2.next()){ 
+                String[] stringa={rs2.getString(1),rs2.getString(2),rs2.getString(3),rs2.getString(4)};
+                System.out.println(stringa);        
+                model2.addRow(stringa);
+            }
+            rs2.close(); 
+            db.disconnetti();
+    }catch(SQLException e){ System.out.println(e); }
+        catch(NullPointerException e1){System.out.println(e1);}
+                break;
+        }
            
        }
      
