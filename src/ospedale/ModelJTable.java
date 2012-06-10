@@ -41,7 +41,7 @@ public class ModelJTable extends JFrame{
     reparto=rep;
     paz=p;
     model = new DefaultTableModel();
-    model.addColumn("GIORNO");
+    model.addColumn("DATA (aaaa-mm-gg)");
     model.addColumn("ORARIO");
     
     popolaTable("select data,ora from visite where reparto='"+reparto+"' and priorita='0' order by data,ora asc;",model.getColumnCount());
@@ -61,7 +61,7 @@ public class ModelJTable extends JFrame{
         model = new DefaultTableModel();
         model.addColumn("ID PRENOTAZIONE");
         model.addColumn("REPARTO");
-        model.addColumn("GIORNO");
+        model.addColumn("DATA (aaaa-mm-gg)");
         model.addColumn("ORARIO");
         
        popolaTable("select idprenotazione,reparto,data,ora from prenotazioni where idpaziente='"+paz.getCod_Fisc()+"' order by idprenotazione asc;",model.getColumnCount());
@@ -82,7 +82,7 @@ public class ModelJTable extends JFrame{
         model = new DefaultTableModel();
         model.addColumn("ID PRENOTAZIONE");
         model.addColumn("REPARTO");
-        model.addColumn("GIORNO");
+        model.addColumn("DATA (aaaa-mm-gg)");
         model.addColumn("ORARIO");
         model.addColumn("PRIORITÀ");
         model.addColumn("ID PAZIENTE");
@@ -116,7 +116,7 @@ public class ModelJTable extends JFrame{
         amm=a;
         model = new DefaultTableModel();
         model.addColumn("REPARTO");
-        model.addColumn("GIORNO");
+        model.addColumn("DATA (aaaa-mm-gg)");
         model.addColumn("ORARIO");
         model.addColumn("PRIORITÀ");
         
@@ -176,7 +176,7 @@ public class ModelJTable extends JFrame{
                 referto.setText("RIMUOVI");
                 DefaultTableModel model2=new DefaultTableModel();
                 model2.addColumn("REPARTO");
-                model2.addColumn("GIORNO");
+                model2.addColumn("DATA (aaaa-mm-gg)");
                 model2.addColumn("ORARIO");
                 model2.addColumn("PRIORITÀ");
                 model2.addRow(new String[4]);
@@ -310,7 +310,6 @@ public class ModelJTable extends JFrame{
         ResultSet rs;
         switch(identificativo){
             case 2:
-            case 3:
                 if (id_prenot==null){
                     JOptionPane.showMessageDialog(null,"Effettua una scelta prima di proseguire");
                 }else{
@@ -323,6 +322,27 @@ public class ModelJTable extends JFrame{
                     while(rs.next()){
                 //System.out.println(rs.getString("referto"));
                 Visualizza_Referto vr= new Visualizza_Referto(rs.getString("referto"),false);
+                vr.setVisible(true);
+            }
+            rs.close();
+            db.disconnetti();
+          }catch(SQLException e){ System.out.println(e); }
+            
+           }
+            break;
+            case 3:
+                if (id_prenot==null){
+                    JOptionPane.showMessageDialog(null,"Effettua una scelta prima di proseguire");
+                }else{
+                    try {
+                        db.connetti();
+                        SQL="select referto from referti where idprenotazione='"+id_prenot+"';";
+            
+                    System.out.println(id_prenot);
+                    rs=db.eseguiQuery(SQL);
+                    while(rs.next()){
+                //System.out.println(rs.getString("referto"));
+                Visualizza_Referto vr= new Visualizza_Referto(rs.getString("referto"),true);
                 vr.setVisible(true);
             }
             rs.close();
@@ -391,7 +411,7 @@ public class ModelJTable extends JFrame{
                 prior = (String) table2.getValueAt(table2.getSelectedRow(), 3);
                 int p=Integer.parseInt(prior);
                 if (isValidDate(data_table)==false){
-                    JOptionPane.showMessageDialog(null,"Inserire la data nella forma gg/mm/aaaa");                                  
+                    JOptionPane.showMessageDialog(null,"Inserire la data nella forma aaaa-mm-gg");                                  
                 }
                 boolean corretta=oraSyntaxCheck(ora_table); 
                 if(corretta==false){
@@ -444,7 +464,7 @@ public class ModelJTable extends JFrame{
       return false;
 
     //set the format to use as a constructor argument
-    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     
     if (inDate.trim().length() != dateFormat.toPattern().length())
       return false;
