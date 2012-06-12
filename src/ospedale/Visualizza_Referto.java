@@ -4,26 +4,61 @@
  */
 package ospedale;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 /**
  *
  * @author claudio
  */
 public class Visualizza_Referto extends javax.swing.JFrame {
-    
+    private Database db=new Database("ospedale","root","lilli");
     /**
      * Creates new form Visualizza_Referto
      */
-    public Visualizza_Referto(String testo,boolean editabile) {
+    public Visualizza_Referto(String idPrenot,boolean editabile) {
         initComponents();
-        if (testo==null && editabile==false){
-            jTextArea1.setText("Referto non ancora inserito");
-            jButton2.setVisible(editabile);
-        }else{
-            jTextArea1.setText(testo); 
-            jButton2.setVisible(true);
+        jButton1.setEnabled(false);
+        jButton2.setEnabled(false);
+        String testo=null;
+        //jTextArea2.setEditable(editabile);
+        String SQL="select referto from referti where idprenotazione='"+idPrenot+"';";
+        try{
+            db.connetti();
+            ResultSet r=db.eseguiQuery(SQL);
+            while(r.next()){
+                testo=r.getString("referto");
+                System.out.println(testo);
+            }
+            
+        } catch(SQLException e){e.getMessage();}
+        
+        
+        
+       if (testo==null && editabile==false){
+            jLabel2.setText("Referto non ancora inserito");
+            System.out.println("referto non inserito");
+            jButton1.setEnabled(false);
+            jButton2.setEnabled(false);
+            
+        }else if (testo!=null && editabile==false){
+            jLabel2.setText(testo);
+            System.out.println(testo);
+            jButton1.setEnabled(true);
+            jButton2.setEnabled(false);
         }
-        jTextArea1.setEditable(editabile);
-        jButton3.setVisible(editabile);
+        
+        if(testo==null && editabile==true){
+            jLabel2.setText("Inserisci qui il referto");
+            jButton1.setEnabled(false);
+            jButton2.setEnabled(true);
+        }else {
+            //jTextArea2.setText(testo);
+            jButton1.setEnabled(true);
+            jButton2.setEnabled(true);
+        }
+        
+        //if(testo==null && editabile==true)  */
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -35,80 +70,74 @@ public class Visualizza_Referto extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
+        jButtonChiudi = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
         jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel1.setText("REFERTO");
 
-        jButton1.setText("CHIUDI");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButtonChiudi.setText("CHIUDI");
+        jButtonChiudi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButtonChiudiActionPerformed(evt);
             }
         });
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane2.setViewportView(jTextArea1);
+        jButton1.setText("STAMPA");
 
-        jButton2.setText("STAMPA");
+        jButton2.setText("SALVA");
 
-        jButton3.setText("SALVA");
-
-        jButton4.setText("MODIFICA");
+        jLabel2.setText("jLabel2");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1))
-                    .addComponent(jScrollPane2))
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
                 .addGap(168, 168, 168)
                 .addComponent(jLabel1)
                 .addGap(0, 172, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(82, 82, 82)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonChiudi)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(6, 6, 6)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 378, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(45, 45, 45)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 250, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonChiudi)
                     .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4))
+                    .addComponent(jButton2))
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jButtonChiudiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonChiudiActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jButtonChiudiActionPerformed
 
     /**
      * @param args the command line arguments
@@ -153,10 +182,8 @@ public class Visualizza_Referto extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButtonChiudi;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JLabel jLabel2;
     // End of variables declaration//GEN-END:variables
 }

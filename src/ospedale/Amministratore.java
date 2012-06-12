@@ -117,7 +117,7 @@ public class Amministratore extends javax.swing.JFrame {
             }
         });
 
-        aggiornaPrenotazioniReferti.setText("Aggiorna lista prenotazioni e referti");
+        aggiornaPrenotazioniReferti.setText("Aggiorna lista prenotazioni");
         aggiornaPrenotazioniReferti.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 aggiornaPrenotazioniRefertiActionPerformed(evt);

@@ -382,20 +382,10 @@ public class ModelJTable extends JFrame{
                 if (id_prenot==null){
                     JOptionPane.showMessageDialog(null,"Effettua una scelta prima di proseguire");
                 }else{
-                    try {
-                        db.connetti();
-                        SQL="select referto from referti where idprenotazione='"+id_prenot+"';";
-            
-                    System.out.println(id_prenot);
-                    rs=db.eseguiQuery(SQL);
-                    while(rs.next()){
-                //System.out.println(rs.getString("referto"));
-                Visualizza_Referto vr= new Visualizza_Referto(rs.getString("referto"),false);
+                    
+                Visualizza_Referto_II vr= new Visualizza_Referto_II(id_prenot,false);
                 vr.setVisible(true);
-            }
-            rs.close();
-            db.disconnetti();
-          }catch(SQLException e){ System.out.println(e); }
+          
             
            }
             break;
@@ -403,20 +393,10 @@ public class ModelJTable extends JFrame{
                 if (id_prenot==null){
                     JOptionPane.showMessageDialog(null,"Effettua una scelta prima di proseguire");
                 }else{
-                    try {
-                        db.connetti();
-                        SQL="select referto from referti where idprenotazione='"+id_prenot+"';";
-            
-                    System.out.println(id_prenot);
-                    rs=db.eseguiQuery(SQL);
-                    while(rs.next()){
-                //System.out.println(rs.getString("referto"));
-                Visualizza_Referto vr= new Visualizza_Referto(rs.getString("referto"),true);
+                    
+                Visualizza_Referto_II vr= new Visualizza_Referto_II(id_prenot,true);
                 vr.setVisible(true);
-            }
-            rs.close();
-            db.disconnetti();
-          }catch(SQLException e){ System.out.println(e); }
+          
             
            }
             break;
@@ -500,16 +480,16 @@ public class ModelJTable extends JFrame{
     private void selezionaData(MouseEvent me){
         data_table = (String) table.getValueAt(table.getSelectedRow(), 0);
        ora_table = (String) table.getValueAt(table.getSelectedRow(), 1);
-       if((data_table!=null) && (ora_table!=null)) {
-           JOptionPane.showMessageDialog(null,"Contenuto riga selezionata: "+data_table+" "+ora_table);
-        }
+       //if((data_table!=null) && (ora_table!=null)) {
+       //    JOptionPane.showMessageDialog(null,"Contenuto riga selezionata: "+data_table+" "+ora_table);
+       // }
     }
     
     private void selezionaPrenotazione(MouseEvent me,int id,DefaultTableModel model2){
        
         id_prenot = (String) table.getValueAt(table.getSelectedRow(), 0);
        if(id_prenot!=null) {
-           JOptionPane.showMessageDialog(null,"Contenuto riga selezionata: "+id_prenot);
+       //    JOptionPane.showMessageDialog(null,"Contenuto riga selezionata: "+id_prenot);
         switch(id){
             case 5:
                 System.out.println("5");
@@ -544,11 +524,11 @@ public class ModelJTable extends JFrame{
         reparto = (String) table.getValueAt(table.getSelectedRow(), 0);
         data_table=(String) table.getValueAt(table.getSelectedRow(), 1);
         ora_table=(String) table.getValueAt(table.getSelectedRow(), 2);
-       if(reparto!=null) {
-           JOptionPane.showMessageDialog(null,"Contenuto riga selezionata: "+reparto+" "+data_table+" "+ora_table);
+      // if(reparto!=null) {
+      //     JOptionPane.showMessageDialog(null,"Contenuto riga selezionata: "+reparto+" "+data_table+" "+ora_table);
         
            
-       }
+      // }
      
     }
     

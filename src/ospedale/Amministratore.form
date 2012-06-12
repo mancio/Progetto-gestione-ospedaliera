@@ -154,7 +154,7 @@
     </Component>
     <Component class="javax.swing.JRadioButton" name="aggiornaPrenotazioniReferti">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Aggiorna lista prenotazioni e referti"/>
+        <Property name="text" type="java.lang.String" value="Aggiorna lista prenotazioni"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="aggiornaPrenotazioniRefertiActionPerformed"/>
