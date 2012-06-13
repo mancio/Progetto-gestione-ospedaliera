@@ -27,7 +27,7 @@ private String[] userRequest;
         data=new Database("ospedale","root","lilli");
       if (data.connetti()==true) System.out.println("connesso al db");
     }catch (Exception e) {e.getMessage(); }
-    
+      this.setTitle("Login");
     }
 
     /**

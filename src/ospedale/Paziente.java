@@ -30,6 +30,7 @@ public class Paziente extends javax.swing.JFrame {
         resid=res;
         is_admin=adm;
         jLabel4.setText(paziente);
+        this.setTitle("Scelta Operazioni - Paziente");
     }
    public String getCod_Fisc(){return codice;}
    public String getPaziente(){ return paziente;}
