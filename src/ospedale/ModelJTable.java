@@ -532,10 +532,7 @@ public class ModelJTable extends JFrame{
                 break;
         }
     }
-    private void cambiaPriorità(String idPrenotaz){
-        String SQL="update prenotazioni set priorita='0' where idprenotazioni='"+idPrenotaz+"';";
-        db.eseguiAggiornamento(SQL);
-    }
+  
     private void selezionaData(MouseEvent me){
        
         data_table = (String) table.getValueAt(table.getSelectedRow(), 0);
