@@ -14,11 +14,7 @@ package ospedale;
  * Gestisce l'apertura e la chiusura della connessione col Database
  * Fornisce i metodi per l'esecuzione delle query sul Database
  */
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.Vector;
+import java.sql.*;
 
 public class Database {
    private String nomeDB;       // Nome del Database a cui connettersi
@@ -75,7 +71,7 @@ public class Database {
             System.out.println("Scrivere il nome del database da utilizzare all'interno del file \"config.xml\"");
             System.exit(0);
          }
-      } catch (Exception e) { errore = e.getMessage(); }
+      } catch (ClassNotFoundException | SQLException e) { errore = e.getMessage(); }
       return connesso;
    }
    // Esegue una query di selezione dati sul Database
@@ -143,7 +139,7 @@ public class Database {
   public boolean isUtente(String CF){
       System.out.println("immesso:"+CF);
       boolean esistente=false;
-      String cod=null;
+      String cod;
       try{
           connetti();
           com.mysql.jdbc.Statement stmt = (com.mysql.jdbc.Statement) db.createStatement();     
@@ -164,24 +160,12 @@ public class Database {
    
    public ResultSet eseguiQuery(String query) {
       ResultSet rs=null;
-       Vector a1 = null;
-      String [] record;
       int colonne = 0;
       try {
           connetti();
          Statement stmt = db.createStatement();     // Creo lo Statement per l'esecuzione della query
          rs = stmt.executeQuery(query);   // Ottengo il ResultSet dell'esecuzione della query
-         /*a1 = new Vector();
-         ResultSetMetaData rsmd = rs.getMetaData();
-         colonne = rsmd.getColumnCount();
-         while(rs.next()) {   // Creo il vettore risultato scorrendo tutto il ResultSet
-            record = new String[colonne];
-            for (int i=0; i<colonne; i++) record[i] = rs.getString(i+1);
-            a1.add( (String[]) record.clone() );
-         }
-         rs.close();     // Chiudo il ResultSet
-         stmt.close();   // Chiudo lo Statement */
-      } catch (Exception e) { e.printStackTrace(); errore = e.getMessage(); }
+      } catch (Exception e) { errore = e.getMessage(); }
       return rs;
    }
 
@@ -190,14 +174,13 @@ public class Database {
    // ritorna TRUE se l'esecuzione è adata a buon fine, FALSE se c'è stata un'eccezione
    public boolean eseguiAggiornamento(String query) {
       int numero = 0;
-      boolean risultato = false;
-      try {
-         Statement stmt = db.createStatement();
-         numero = stmt.executeUpdate(query);
-         risultato = true;
-         stmt.close();
+      boolean risultato;
+      
+            try (Statement stmt = db.createStatement()) {
+                numero = stmt.executeUpdate(query);
+                risultato = true;
+            
       } catch (Exception e) {
-         e.printStackTrace();
          errore = e.getMessage();
          risultato = false;
       }
@@ -205,19 +188,15 @@ public class Database {
    }
 
    // Chiude la connessione con il Database
-   public void disconnetti() {
-      try {
+   public void disconnetti() throws SQLException {
+     
          db.close();
          connesso = false;
-      } catch (Exception e) { e.printStackTrace(); }
+     
    }
 
    public boolean isConnesso() { return connesso; }   // Ritorna TRUE se la connessione con il Database è attiva
    public String getErrore() { return errore; }       // Ritorna il messaggio d'errore dell'ultima eccezione sollevata
-
-public static void main(String Args[]){
-  
-}
 
 }
 

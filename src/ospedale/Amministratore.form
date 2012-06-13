@@ -54,11 +54,11 @@
                                           <Component id="visualizzaIDPrenotazione" alignment="0" min="-2" max="-2" attributes="0"/>
                                           <Component id="visualizzaTutte" alignment="0" min="-2" max="-2" attributes="0"/>
                                       </Group>
-                                      <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="jComboID" max="32767" attributes="0"/>
-                                          <Component id="jComboPaziente" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="jComboReparto" alignment="0" max="32767" attributes="0"/>
+                                      <EmptySpace max="32767" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="jComboReparto" alignment="1" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jComboPaziente" alignment="1" min="-2" pref="212" max="-2" attributes="0"/>
+                                          <Component id="jComboID" alignment="1" min="-2" pref="212" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
@@ -67,7 +67,7 @@
                   </Group>
                   <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace min="0" pref="503" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="506" max="32767" attributes="0"/>
                       <Component id="conferma" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -146,7 +146,7 @@
     </Component>
     <Component class="javax.swing.JRadioButton" name="aggiornaVisite">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Aggiorna lista visite"/>
+        <Property name="text" type="java.lang.String" value="Aggiorna elenco visite disponibili"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="aggiornaVisiteActionPerformed"/>
@@ -154,7 +154,7 @@
     </Component>
     <Component class="javax.swing.JRadioButton" name="aggiornaPrenotazioniReferti">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Aggiorna lista prenotazioni"/>
+        <Property name="text" type="java.lang.String" value="Gestisci priorit&#xe0;"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="aggiornaPrenotazioniRefertiActionPerformed"/>

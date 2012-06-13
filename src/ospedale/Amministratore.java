@@ -3,11 +3,9 @@
  * and open the template in the editor.
  */
 package ospedale;
-
+ 
 import java.sql.ResultSet;
 import javax.swing.ButtonGroup;
-import javax.swing.JOptionPane;
-
 /**
  *
  * @author mancio
@@ -48,7 +46,7 @@ public class Amministratore extends javax.swing.JFrame {
         getPazienti();
         getPrenotazioni();
     }
-    
+     
     public void getPrenotazioni(){
         try{
         db=new Database("ospedale","root","lilli");
@@ -110,14 +108,14 @@ public class Amministratore extends javax.swing.JFrame {
 
         jLabel2.setText("GESTISCI SISTEMA");
 
-        aggiornaVisite.setText("Aggiorna lista visite");
+        aggiornaVisite.setText("Aggiorna elenco visite disponibili");
         aggiornaVisite.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 aggiornaVisiteActionPerformed(evt);
             }
         });
 
-        aggiornaPrenotazioniReferti.setText("Aggiorna lista prenotazioni");
+        aggiornaPrenotazioniReferti.setText("Gestisci priorità");
         aggiornaPrenotazioniReferti.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 aggiornaPrenotazioniRefertiActionPerformed(evt);
@@ -208,14 +206,14 @@ public class Amministratore extends javax.swing.JFrame {
                                             .addComponent(visualizzaPaziente)
                                             .addComponent(visualizzaIDPrenotazione)
                                             .addComponent(visualizzaTutte))
-                                        .addGap(31, 31, 31)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(jComboID, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jComboPaziente, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jComboReparto, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jComboReparto, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jComboPaziente, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jComboID, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
                     .addComponent(jLabel3)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 503, Short.MAX_VALUE)
+                        .addGap(0, 506, Short.MAX_VALUE)
                         .addComponent(conferma)))
                 .addContainerGap())
         );
@@ -378,48 +376,7 @@ public class Amministratore extends javax.swing.JFrame {
         jComboPaziente.setSelectedIndex(0);
         jComboID.setSelectedIndex(0);
     }//GEN-LAST:event_visualizzaTutteActionPerformed
-    
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /*
-         * Set the Nimbus look and feel
-         */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /*
-         * If Nimbus (introduced in Java SE 6) is not available, stay with the
-         * default look and feel. For details see
-         * http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Amministratore.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Amministratore.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Amministratore.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Amministratore.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
 
-        /*
-         * Create and display the form
-         */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-
-            public void run() {
-               // new Amministratore().setVisible(true);
-            }
-        });
-    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JRadioButton aggiornaPrenotazioniReferti;
     private javax.swing.JRadioButton aggiornaVisite;
