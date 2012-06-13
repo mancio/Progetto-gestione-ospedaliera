@@ -216,13 +216,13 @@ public class ModelJTable extends JFrame{
           
             @Override
                 public boolean isCellEditable(int rowIndex, int colIndex) {
-                    return true; //Disallow the editing of any cell
+                    return true; //Allow the editing of any cell
                 }
                 };
                 
                 String[] values1 = new String[]{"ortopedia", "pediatria"};
                 String[] values2 = new String[]{"0","1"};
-                // Set the combobox editor on the 1st visible column
+                // Set the combobox editor on the columns
                 int vColIndex = 0;
                 TableColumn col = table2.getColumnModel().getColumn(vColIndex);
                 col.setCellEditor(new MyComboBoxEditor(values1));
@@ -438,12 +438,16 @@ public class ModelJTable extends JFrame{
                     popolaTable("select * from visite",4);
                 }
             case 5:
-                db.connetti();
-                System.out.println(id_prenot);
-                SQL="update prenotazioni set priorita='0' where idprenotazione='"+id_prenot+"';";
-                boolean ris=db.eseguiAggiornamento(SQL);
-                System.out.println(ris);
-                popolaTable("select * from prenotazioni where priorita='1';",6);
+                if(reparto==null){
+                    JOptionPane.showMessageDialog(null,"Effettua una scelta prima di proseguire");
+                }else{
+                    db.connetti();
+                    System.out.println(id_prenot);
+                    SQL="update prenotazioni set priorita='0' where idprenotazione='"+id_prenot+"';";
+                    boolean ris=db.eseguiAggiornamento(SQL);
+                    System.out.println(ris);
+                    popolaTable("select * from prenotazioni where priorita='1';",6);
+                }
                 break;
                 
                 
@@ -529,6 +533,7 @@ public class ModelJTable extends JFrame{
                 }
                
                 db.disconnetti();
+                model2.setRowCount(0);
                 break;
         }
     }
@@ -596,9 +601,9 @@ public class ModelJTable extends JFrame{
                 reparto2 = (String) table2.getValueAt(table2.getSelectedRow(), 0);
                  data_table2 = (String) table2.getValueAt(table2.getSelectedRow(), 1);
        ora_table2 = (String) table2.getValueAt(table2.getSelectedRow(), 2);
-                if((data_table2!=null) && (ora_table2!=null)) {
-           JOptionPane.showMessageDialog(null,"Contenuto riga selezionata: "+data_table2+" "+ora_table2);
-        }
+                // if((data_table2!=null) && (ora_table2!=null)) {
+                // JOptionPane.showMessageDialog(null,"Contenuto riga selezionata: "+data_table2+" "+ora_table2);
+                // }
     }
     }
     
