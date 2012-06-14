@@ -272,7 +272,7 @@ public class ModelJTable extends JFrame{
     }
         container.add(inputPanel2,BorderLayout.AFTER_LAST_LINE);      
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(850, 530);
+        setSize(850, 540);
         setVisible(true);
         setResizable(false);
                 

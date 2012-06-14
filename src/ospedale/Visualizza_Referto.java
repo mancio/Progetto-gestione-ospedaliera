@@ -68,7 +68,7 @@ public class Visualizza_Referto extends JFrame {
     }
     
     setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(850, 530);
+        setSize(450, 530);
         setVisible(true);
         setResizable(false);
         
