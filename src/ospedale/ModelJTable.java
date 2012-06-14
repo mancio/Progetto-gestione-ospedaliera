@@ -30,7 +30,7 @@ public class ModelJTable extends JFrame{
     private Paziente paz=null;
     private Amministratore amm=null;
     private DefaultTableModel model,model2;
-    private Database db=new Database("ospedale","root","lilli");
+    private Database db=new Database();
     private JTable table, table2;
     final int identificativo;
     private JRadioButton priorita;

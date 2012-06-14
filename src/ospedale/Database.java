@@ -26,10 +26,10 @@ public class Database {
 
   
 
-   public Database(String nomeDB, String nomeUtente, String pwdUtente) {
-      this.nomeDB = nomeDB;
-      this.nomeUtente = nomeUtente;
-      this.pwdUtente = pwdUtente;
+   public Database() {
+      this.nomeDB = "ospedale";
+      this.nomeUtente = "root";
+      this.pwdUtente = "root";
       connesso = false;
       errore = "";
    }
@@ -41,36 +41,12 @@ public class Database {
 
          // Carico il driver JDBC per la connessione con il database MySQL
          Class.forName("com.mysql.jdbc.Driver");
-
-         // Controllo che il nome del Database non sia nulla
-         if (!nomeDB.equals("")) {
-
-            // Controllo se il nome utente va usato o meno per la connessione
-            if (nomeUtente.equals("")) {
-
-               // La connessione non richiede nome utente e password
-               db = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + nomeDB);
-            } else {
-
-               // La connessione richiede nome utente, controllo se necessita anche della password
-               if (pwdUtente.equals("")) {
-
-                  // La connessione non necessita di password
-                  db = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + nomeDB + "?user=" + nomeUtente);
-               } else {
-
-                  // La connessione necessita della password
-                  db = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + nomeDB + "?user=" + nomeUtente + "&password=" + pwdUtente);
-               }
-            }
+         db = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + nomeDB + "?user=" + nomeUtente + "&password=" + pwdUtente);
 
             // La connessione è avvenuta con successo
             connesso = true;
-         } else {
-            System.out.println("Manca il nome del database!!");
-            System.out.println("Scrivere il nome del database da utilizzare all'interno del file \"config.xml\"");
-            System.exit(0);
-         }
+        
+         
       } catch (ClassNotFoundException | SQLException e) { errore = e.getMessage(); }
       return connesso;
    }

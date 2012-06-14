@@ -24,7 +24,7 @@ private String[] userRequest;
       //boolean connection= db.connetti();
       //System.out.println("connessione al db="+connection);
       try {
-        data=new Database("ospedale","root","lilli");
+        data=new Database();
       if (data.connetti()==true) System.out.println("connesso al db");
     }catch (Exception e) {e.getMessage(); }
       this.setTitle("Login");

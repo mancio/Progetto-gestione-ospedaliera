@@ -50,7 +50,7 @@ public class Amministratore extends javax.swing.JFrame {
      
     public void getPrenotazioni(){
         try{
-        db=new Database("ospedale","root","lilli");
+        db=new Database();
         rs=db.eseguiQuery("select idprenotazione from prenotazioni order by idprenotazione asc;");
         jComboID.addItem("..selezionare una prenotazione..");
         
@@ -63,7 +63,7 @@ public class Amministratore extends javax.swing.JFrame {
     
     public void getPazienti(){
         try{
-        db=new Database("ospedale","root","lilli");
+        db=new Database();
         rs=db.eseguiQuery("select cod_fisc from utenti where is_admin='0' order by cod_fisc asc;");
         jComboPaziente.addItem("..selezionare un paziente..");
         

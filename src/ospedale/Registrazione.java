@@ -24,7 +24,7 @@ private String[] connesso=new String[7];
     public Registrazione() {
         initComponents();
         try {
-        db=new Database("ospedale","root","lilli");
+        db=new Database();
       if (db.connetti()==true) System.out.println("connesso al db");
     }catch (Exception e) {e.getMessage(); }
     }

@@ -15,7 +15,7 @@ import javax.swing.*;
  * @author alex
  */
 public class Visualizza_Referto extends JFrame {
-    private Database db=new Database("ospedale","root","lilli");
+    private Database db=new Database();
     private String testo;
     private JTextArea foglio;
     private String id;
