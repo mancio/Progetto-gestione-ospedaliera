@@ -26,7 +26,7 @@ import javax.swing.table.TableColumn;
  * @author alex
  */
 public class ModelJTable extends JFrame{
-    private String data_table,data_table2,ora_table,ora_table2,id_prenot,reparto,reparto2,info,prior;
+    private String data_table,data_table2,ora_table,ora_table2,id_prenot,reparto,reparto2,info,prior,paziente;
     private Paziente paz=null;
     private Amministratore amm=null;
     private DefaultTableModel model,model2;

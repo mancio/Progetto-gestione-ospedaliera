@@ -4,10 +4,20 @@
  */
 package ospedale;
 
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Font.FontFamily;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 
 /**
@@ -19,15 +29,20 @@ public class Visualizza_Referto extends JFrame {
     private String testo;
     private JTextArea foglio;
     private String id;
+    private Paziente paz;
+    
     public Visualizza_Referto(String idPrenot,boolean editabile){
       id=idPrenot;
+      
         Container container = getContentPane();
     foglio=new JTextArea();
     foglio.setEditable(editabile);
+    foglio.setLineWrap(true);
+    foglio.setWrapStyleWord(true);
     JButton stampa=new JButton("STAMPA");
     JButton salva=new JButton("SALVA");
     JButton chiudi=new JButton("CHIUDI");
-    JLabel titolo=new JLabel("REFERTO");
+    JLabel titolo=new JLabel("REFERTO n° "+ id);
     
     this.setTitle("REFERTO n° "+ id);
     JPanel inputPanel1=new JPanel();
@@ -87,7 +102,17 @@ public class Visualizza_Referto extends JFrame {
         
         stampa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                stampaActionPerformed(evt);
+                try {
+                    try {
+                        stampaActionPerformed(evt);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(Visualizza_Referto.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                } catch (DocumentException ex) {
+                    Logger.getLogger(Visualizza_Referto.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(Visualizza_Referto.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     
@@ -110,8 +135,66 @@ public class Visualizza_Referto extends JFrame {
         }
     }
     
-    private void stampaActionPerformed(java.awt.event.ActionEvent evt) {                                                     
+    private void stampaActionPerformed(java.awt.event.ActionEvent evt) throws DocumentException, FileNotFoundException, SQLException {                                                     
+        db.connetti();
         
+        String SQL="select reparto,data,ora,idpaziente from prenotazioni where idprenotazione='"+id+"';";
+        ResultSet rs=db.eseguiQuery(SQL);
+        String reparto=null;
+        String data=null;
+        String ora=null;
+        String paziente=null;
+        while(rs.next()){
+            reparto=rs.getString("reparto");
+            data=rs.getString("data");
+            ora=rs.getString("ora");
+            paziente=rs.getString("idpaziente");
+        }
+        
+        
+        SQL="select nome,email,telefono,residenza from utenti where cod_fisc='"+paziente+"';";
+        rs=db.eseguiQuery(SQL);
+        String nome=null;
+        String email=null;
+        String telefono=null;
+        String residenza=null;
+        while(rs.next()){
+            nome=rs.getString("nome");
+            email=rs.getString("email");
+            telefono=rs.getString("telefono");
+            residenza=rs.getString("residenza");
+        }
+        
+        
+        db.disconnetti();
+        
+        
+        //definiamo il nome del nostro file di prova
+        String filename= "Referto n°"+id+" - "+paziente+".pdf";
+        // Creiamo un Document
+        Document document = new Document();
+        // otteniamo una istanza di PdfWriter passando il document ed uno stream file
+        PdfWriter.getInstance(document, new FileOutputStream(filename));
+        // apriamo il documento
+        document.open();
+        // aggiungiamo i paragrafi
+        Font fontTitolo=new Font(FontFamily.HELVETICA, 24, Font.BOLD);
+        Paragraph titolo=new Paragraph("REFERTO N° "+id+"\n\n",fontTitolo);
+        document.add(titolo);
+        document.add(new Paragraph("CODICE FISCALE: "+paziente+"\n"+
+                                    "COGNOME E NOME: "+nome+"\n"+
+                                    "INDIRIZZO MAIL: "+email+"\n"+
+                                    "NUMERO TELEFONICO: "+telefono+"\n"+
+                                    "INDIRIZZO: "+residenza+"\n\n"));
+
+        Font fontVisita=new Font(FontFamily.HELVETICA, 12, Font.BOLD);
+        Paragraph visita=new Paragraph("Visita effettuata nel reparto: "+reparto+"   in data: "+data+"   alle ore: "+ora+"\n\n",fontVisita);
+        document.add(visita);
+        document.add(new Paragraph(foglio.getText()));
+        // chiudiamo il documento
+        document.close();
+        JOptionPane.showMessageDialog(null,"Il referto è stato stampato");
+
     }
 
    
