@@ -30,6 +30,7 @@ public class Visualizza_Referto extends JFrame {
     private JTextArea foglio;
     private String id;
     private Paziente paz;
+    JButton stampa,salva,chiudi;
     
     public Visualizza_Referto(String idPrenot,boolean editabile){
       id=idPrenot;
@@ -39,9 +40,9 @@ public class Visualizza_Referto extends JFrame {
     foglio.setEditable(editabile);
     foglio.setLineWrap(true);
     foglio.setWrapStyleWord(true);
-    JButton stampa=new JButton("STAMPA");
-    JButton salva=new JButton("SALVA");
-    JButton chiudi=new JButton("CHIUDI");
+    stampa=new JButton("STAMPA");
+    salva=new JButton("SALVA");
+    chiudi=new JButton("CHIUDI");
     JLabel titolo=new JLabel("REFERTO n° "+ id);
     
     this.setTitle("REFERTO n° "+ id);
@@ -128,10 +129,15 @@ public class Visualizza_Referto extends JFrame {
             String SQL="update referti set referto='"+foglio.getText()+"' where idprenotazione='"+id+"';";
             db.eseguiAggiornamento(SQL);
             System.out.println("aggiornato");
+            if(foglio.getText()!=null && foglio.getText().isEmpty()==false){
+                stampa.setEnabled(true);
+            }
             
         }else {System.out.println("ricon vuoto, settato a null campo db");
             String SQL="update referti set referto=null where idprenotazione='"+id+"';";
             db.eseguiAggiornamento(SQL);
+            stampa.setEnabled(false);
+            
         }
     }
     

@@ -447,6 +447,7 @@ public class ModelJTable extends JFrame{
                     boolean ris=db.eseguiAggiornamento(SQL);
                     System.out.println(ris);
                     popolaTable("select * from prenotazioni where priorita='1';",6);
+                    model2.setRowCount(0);
                 }
                 break;
                 
@@ -489,6 +490,7 @@ public class ModelJTable extends JFrame{
                     data_table=null;
                     ora_table=null;
                     db.disconnetti();
+                    priorita.setSelected(false);
                 }
                 break;
             case 4: //inserimento nuova data
