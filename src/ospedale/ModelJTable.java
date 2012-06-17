@@ -437,6 +437,7 @@ public class ModelJTable extends JFrame{
                     if (ris==true) System.out.println("ok");
                     popolaTable("select * from visite",4);
                 }
+                break;
             case 5:
                 if(reparto==null){
                     JOptionPane.showMessageDialog(null,"Effettua una scelta prima di proseguire");
@@ -494,25 +495,32 @@ public class ModelJTable extends JFrame{
                 }
                 break;
             case 4: //inserimento nuova data
-                reparto=(String) table2.getValueAt(table2.getSelectedRow(), 0);
-                data_table = (String) table2.getValueAt(table2.getSelectedRow(), 1);
-                ora_table = (String) table2.getValueAt(table2.getSelectedRow(), 2);
-                prior = (String) table2.getValueAt(table2.getSelectedRow(), 3);
+                if(table2.getValueAt(0, 0)!=null && table2.getValueAt(0, 1)!=null && table2.getValueAt(0, 2)!=null && table2.getValueAt(0, 3)!=null){
+                reparto=(String) table2.getValueAt(0, 0);
+                data_table = (String) table2.getValueAt(0, 1);
+                ora_table = (String) table2.getValueAt(0, 2);
+                prior = (String) table2.getValueAt(0, 3);
                 int p=Integer.parseInt(prior);
-                if (isValidDate(data_table)==false){
-                    JOptionPane.showMessageDialog(null,"Inserire la data nella forma aaaa-mm-gg");                                  
-                }
-                boolean corretta=oraSyntaxCheck(ora_table); 
-                if(corretta==false){
-                    JOptionPane.showMessageDialog(null,"Inserire l'ora nella forma hh:mm");
-                }
-                if(isValidDate(data_table) && corretta){
-                    db.connetti();
-                    SQL="insert into visite (reparto,data,ora,priorita) values ('"+reparto+"','"+data_table+"','"+ora_table+"','"+p+"');";
-                    boolean ris=db.eseguiAggiornamento(SQL);
-                    popolaTable("select * from visite;",4);
-                }
-                db.disconnetti();
+               
+                
+                 
+                    if (isValidDate(data_table)==false){
+                        JOptionPane.showMessageDialog(null,"Inserire la data nella forma aaaa-mm-gg");                                  
+                    }
+                    boolean corretta=oraSyntaxCheck(ora_table); 
+                    if(corretta==false){
+                        JOptionPane.showMessageDialog(null,"Inserire l'ora nella forma hh:mm");
+                    }
+                    if(isValidDate(data_table) && corretta){
+                        db.connetti();
+                        SQL="insert into visite (reparto,data,ora,priorita) values ('"+reparto+"','"+data_table+"','"+ora_table+"','"+p+"');";
+                        boolean ris=db.eseguiAggiornamento(SQL);
+                        popolaTable("select * from visite;",4);
+                    }
+                    db.disconnetti();
+                    model2.setRowCount(0);
+                    model2.setRowCount(1);
+                } else JOptionPane.showMessageDialog(null,"Inserire tutti i dati prima di proseguire");
                 break;
                 
             case 5:
