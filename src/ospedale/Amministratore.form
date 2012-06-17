@@ -43,7 +43,7 @@
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="aggiornaPrenotazioniReferti" min="-2" max="-2" attributes="0"/>
+                                  <Component id="gestisciPriorita" min="-2" max="-2" attributes="0"/>
                                   <Component id="aggiornaVisite" min="-2" max="-2" attributes="0"/>
                                   <Component id="visualizzaPrenotazioniReferti" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Group type="102" attributes="0">
@@ -90,7 +90,7 @@
                       <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
                       <Component id="aggiornaVisite" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="aggiornaPrenotazioniReferti" min="-2" max="-2" attributes="0"/>
+                      <Component id="gestisciPriorita" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="visualizzaPrenotazioniReferti" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -152,12 +152,12 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="aggiornaVisiteActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JRadioButton" name="aggiornaPrenotazioniReferti">
+    <Component class="javax.swing.JRadioButton" name="gestisciPriorita">
       <Properties>
         <Property name="text" type="java.lang.String" value="Gestisci priorit&#xe0;"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="aggiornaPrenotazioniRefertiActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="gestisciPrioritaActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JRadioButton" name="visualizzaPrenotazioniReferti">

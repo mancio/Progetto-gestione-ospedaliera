@@ -6,6 +6,7 @@ package ospedale;
  
 import java.sql.ResultSet;
 import javax.swing.ButtonGroup;
+import javax.swing.JOptionPane;
 /**
  *
  * @author mancio
@@ -13,8 +14,10 @@ import javax.swing.ButtonGroup;
 public class Amministratore extends javax.swing.JFrame {
     private String codice,pass,amministratore,email,telef,resid;
     private int is_admin;
+    private int chiamata;
     Database db;
     ResultSet rs;
+    
     /**
      * Creates new form Amministratore
      */
@@ -24,6 +27,8 @@ public class Amministratore extends javax.swing.JFrame {
     
     public Amministratore(String Cod_Fisc,String passw,String nome,String mail,String tel,String res,int adm){
         initComponents();
+        
+        chiamata=0;
         codice=Cod_Fisc;
         pass=passw;
         amministratore=nome;
@@ -35,7 +40,7 @@ public class Amministratore extends javax.swing.JFrame {
         
         ButtonGroup bg1=new ButtonGroup();
         bg1.add(aggiornaVisite);
-        bg1.add(aggiornaPrenotazioniReferti);
+        bg1.add(gestisciPriorita);
         bg1.add(visualizzaPrenotazioniReferti);
         ButtonGroup bg2=new ButtonGroup();
         bg2.add(visualizzaReparto);
@@ -88,7 +93,7 @@ public class Amministratore extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         aggiornaVisite = new javax.swing.JRadioButton();
-        aggiornaPrenotazioniReferti = new javax.swing.JRadioButton();
+        gestisciPriorita = new javax.swing.JRadioButton();
         visualizzaPrenotazioniReferti = new javax.swing.JRadioButton();
         conferma = new javax.swing.JButton();
         esci = new javax.swing.JButton();
@@ -116,10 +121,10 @@ public class Amministratore extends javax.swing.JFrame {
             }
         });
 
-        aggiornaPrenotazioniReferti.setText("Gestisci priorità");
-        aggiornaPrenotazioniReferti.addActionListener(new java.awt.event.ActionListener() {
+        gestisciPriorita.setText("Gestisci priorità");
+        gestisciPriorita.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                aggiornaPrenotazioniRefertiActionPerformed(evt);
+                gestisciPrioritaActionPerformed(evt);
             }
         });
 
@@ -197,7 +202,7 @@ public class Amministratore extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(aggiornaPrenotazioniReferti)
+                                    .addComponent(gestisciPriorita)
                                     .addComponent(aggiornaVisite)
                                     .addComponent(visualizzaPrenotazioniReferti)
                                     .addGroup(layout.createSequentialGroup()
@@ -232,7 +237,7 @@ public class Amministratore extends javax.swing.JFrame {
                         .addGap(31, 31, 31)
                         .addComponent(aggiornaVisite)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(aggiornaPrenotazioniReferti)
+                        .addComponent(gestisciPriorita)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(visualizzaPrenotazioniReferti)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -285,32 +290,49 @@ public class Amministratore extends javax.swing.JFrame {
      
     private void confermaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confermaActionPerformed
         // TODO add your handling code here:
-        if(visualizzaPrenotazioniReferti.isSelected() && visualizzaTutte.isSelected()){  //visualizza tutte le prenotazioni
-            ModelJTable m=new ModelJTable(this,1,null);
-            this.setVisible(false);
+        if(visualizzaPrenotazioniReferti.isSelected()==false && aggiornaVisite.isSelected()==false && gestisciPriorita.isSelected()==false){
+            JOptionPane.showMessageDialog(null,"Effettua una scelta");
         }
         
-        if(visualizzaPrenotazioniReferti.isSelected() && jComboReparto.isEnabled() && jComboReparto.getSelectedIndex()!=0){
-            ModelJTable m=new ModelJTable(this,2,(String)jComboReparto.getSelectedItem());
-            this.setVisible(false);
+        if(visualizzaPrenotazioniReferti.isSelected()){
+            
+            switch(chiamata){
+                case 0:
+                    JOptionPane.showMessageDialog(null, "Seleziona un tipo di visualizzazione");
+                break;
+                case 1:
+                    if(jComboReparto.getSelectedIndex()!=0){
+                        ModelJTable m=new ModelJTable(this,2,(String)jComboReparto.getSelectedItem());
+                        this.setVisible(false);
+                    }else JOptionPane.showMessageDialog(null, "Seleziona un reparto");
+                break;
+                case 2:
+                    if(jComboPaziente.getSelectedIndex()!=0){
+                        ModelJTable m=new ModelJTable(this,3,(String)jComboPaziente.getSelectedItem());
+                        this.setVisible(false);
+                    }else JOptionPane.showMessageDialog(null, "Seleziona un paziente");
+                break;
+                case 3:
+                    if(jComboID.getSelectedIndex()!=0){
+                        ModelJTable m=new ModelJTable(this,4,(String)jComboID.getSelectedItem());
+                        this.setVisible(false);
+                    } else JOptionPane.showMessageDialog(null, "Seleziona un ID prenotazione");
+                break;
+                case 4:
+                    ModelJTable m=new ModelJTable(this,1,null);
+                        this.setVisible(false);
+                break;
+            }
+            
+            
         }
         
-        if(visualizzaPrenotazioniReferti.isSelected() && jComboPaziente.isEnabled() && jComboPaziente.getSelectedIndex()!=0){
-            ModelJTable m=new ModelJTable(this,3,(String)jComboPaziente.getSelectedItem());
-            this.setVisible(false);
-        }
-        
-        if(visualizzaPrenotazioniReferti.isSelected() && jComboID.isEnabled() && jComboID.getSelectedIndex()!=0){
-            ModelJTable m=new ModelJTable(this,4,(String)jComboID.getSelectedItem());
-            this.setVisible(false);
-        }
-       
         if(aggiornaVisite.isSelected()){
             ModelJTable m=new ModelJTable(this);
             this.setVisible(false);
         }
         
-        if (aggiornaPrenotazioniReferti.isSelected()){
+        if (gestisciPriorita.isSelected()){
             ModelJTable m=new ModelJTable(this,5);
             this.setVisible(false);
         }
@@ -324,13 +346,13 @@ public class Amministratore extends javax.swing.JFrame {
         
     }//GEN-LAST:event_aggiornaVisiteActionPerformed
 
-    private void aggiornaPrenotazioniRefertiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aggiornaPrenotazioniRefertiActionPerformed
+    private void gestisciPrioritaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gestisciPrioritaActionPerformed
         // TODO add your handling code here:
        disabilitaSelezione();
        jComboReparto.setSelectedIndex(0);
         jComboPaziente.setSelectedIndex(0);
         jComboID.setSelectedIndex(0);
-    }//GEN-LAST:event_aggiornaPrenotazioniRefertiActionPerformed
+    }//GEN-LAST:event_gestisciPrioritaActionPerformed
     
         private void visualizzaPrenotazioniRefertiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_visualizzaPrenotazioniRefertiActionPerformed
         // TODO add your handling code here:
@@ -363,6 +385,7 @@ public class Amministratore extends javax.swing.JFrame {
 
     private void visualizzaRepartoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_visualizzaRepartoActionPerformed
         // TODO add your handling code here:
+        chiamata=1;
         jComboReparto.setEnabled(true);
         jComboPaziente.setEnabled(false);
         jComboPaziente.setSelectedIndex(0);
@@ -372,6 +395,7 @@ public class Amministratore extends javax.swing.JFrame {
 
     private void visualizzaPazienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_visualizzaPazienteActionPerformed
         // TODO add your handling code here:
+        chiamata=2;
         jComboPaziente.setEnabled(true);
         jComboReparto.setEnabled(false);
         jComboReparto.setSelectedIndex(0);
@@ -381,6 +405,7 @@ public class Amministratore extends javax.swing.JFrame {
 
     private void visualizzaIDPrenotazioneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_visualizzaIDPrenotazioneActionPerformed
         // TODO add your handling code here:
+        chiamata=3;
         jComboID.setEnabled(true);
         jComboReparto.setEnabled(false);
         jComboReparto.setSelectedIndex(0);
@@ -390,6 +415,7 @@ public class Amministratore extends javax.swing.JFrame {
 
     private void visualizzaTutteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_visualizzaTutteActionPerformed
         // TODO add your handling code here:
+        chiamata=4;
         jComboReparto.setEnabled(false);
         jComboReparto.setSelectedIndex(0);
         jComboPaziente.setEnabled(false);
@@ -399,10 +425,10 @@ public class Amministratore extends javax.swing.JFrame {
     }//GEN-LAST:event_visualizzaTutteActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JRadioButton aggiornaPrenotazioniReferti;
     private javax.swing.JRadioButton aggiornaVisite;
     private javax.swing.JButton conferma;
     private javax.swing.JButton esci;
+    private javax.swing.JRadioButton gestisciPriorita;
     private javax.swing.JComboBox jComboID;
     private javax.swing.JComboBox jComboPaziente;
     private javax.swing.JComboBox jComboReparto;
