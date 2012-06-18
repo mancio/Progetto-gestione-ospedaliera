@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 package ospedale;
-
+ 
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -56,6 +56,7 @@ public class ModelJTable extends JFrame{
         }
     };
         generaGrafica("ELENCO DATE DISPONIBILI",paz.getPaziente(),identificativo);
+        this.setTitle("Elenco date disponibili "+reparto+" - Paziente");
     }
     
     
@@ -77,6 +78,7 @@ public class ModelJTable extends JFrame{
         }
     };
        generaGrafica("ELENCO PRENOTAZIONI",paz.getPaziente(),identificativo); 
+       this.setTitle("Elenco prenotazioni effettuate - Paziente");
     }
     
     public ModelJTable(Amministratore a,int chiam, String inform){
@@ -116,6 +118,7 @@ public class ModelJTable extends JFrame{
                 
      
             generaGrafica("ELENCO PRENOTAZIONI",a.getAmministratore(),identificativo);
+           
         
     }
     
@@ -137,6 +140,7 @@ public class ModelJTable extends JFrame{
     };  
   
         generaGrafica("GESTIONE DELLE VISITE",amm.getAmministratore(),identificativo);
+        
         
     }
     
@@ -197,13 +201,13 @@ public class ModelJTable extends JFrame{
             case 3:
                 priorita.setEnabled(false);
                 conferma.setEnabled(false);
-                this.setTitle("ELENCO PRENOTAZIONI");
+                this.setTitle("Elenco delle prenotazioni");
                 container.add(inputPanel1,BorderLayout.NORTH);
                 container.add(new JScrollPane(table), BorderLayout.CENTER);
                 break;
             case 4:
                 priorita.setEnabled(false);
-              
+               
                 conferma.setText("AGGIUNGI");
                 referto.setText("RIMUOVI");
                 model2=new DefaultTableModel();
@@ -232,7 +236,7 @@ public class ModelJTable extends JFrame{
                 JScrollPane J2=new JScrollPane(table2);
                 J2.setPreferredSize(new Dimension(620,40));
                 container.add(J2, BorderLayout.CENTER);
-                this.setTitle("GESTIONE DISPONIBILITÀ VISITE");               
+                this.setTitle("Gestione disponibilità delle visite");               
                 container.add(new JScrollPane(table), BorderLayout.NORTH);
                 break;  
             case 5:
@@ -252,7 +256,7 @@ public class ModelJTable extends JFrame{
                  table.setColumnSelectionAllowed(false);
                 table.setRowSelectionAllowed(true);
                 container.add(new JScrollPane(table2), BorderLayout.CENTER);
-                this.setTitle("GESTIONE RICHIESTE PRIORITÀ");
+                this.setTitle("Gestione richieste di priorità");
                 JScrollPane J1=new JScrollPane(table);
                 J1.setPreferredSize(new Dimension(620,270));
                 container.add(J1, BorderLayout.NORTH);

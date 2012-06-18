@@ -127,15 +127,19 @@ public class Visualizza_Referto extends JFrame {
         System.out.println(foglio.getText());
         if(foglio.getText()!=null && foglio.getText().isEmpty()==false){
             String SQL="update referti set referto='"+foglio.getText()+"' where idprenotazione='"+id+"';";
-            db.eseguiAggiornamento(SQL);
+            boolean risultato=db.eseguiAggiornamento(SQL);
             System.out.println("aggiornato");
+            if(risultato==true) JOptionPane.showMessageDialog(null,"Salvataggio riuscito");
+            else JOptionPane.showMessageDialog(null,"Errore nel salvataggio");
             if(foglio.getText()!=null && foglio.getText().isEmpty()==false){
                 stampa.setEnabled(true);
             }
             
         }else {System.out.println("ricon vuoto, settato a null campo db");
             String SQL="update referti set referto=null where idprenotazione='"+id+"';";
-            db.eseguiAggiornamento(SQL);
+            boolean risultato=db.eseguiAggiornamento(SQL);
+            if (risultato==true) JOptionPane.showMessageDialog(null,"Il referto è stato cancellato");
+            else JOptionPane.showMessageDialog(null,"Errore nella cancellazione");
             stampa.setEnabled(false);
             
         }
@@ -187,11 +191,11 @@ public class Visualizza_Referto extends JFrame {
         Font fontTitolo=new Font(FontFamily.HELVETICA, 24, Font.BOLD);
         Paragraph titolo=new Paragraph("REFERTO N° "+id+"\n\n",fontTitolo);
         document.add(titolo);
-        document.add(new Paragraph("CODICE FISCALE: "+paziente+"\n"+
-                                    "COGNOME E NOME: "+nome+"\n"+
-                                    "INDIRIZZO MAIL: "+email+"\n"+
-                                    "NUMERO TELEFONICO: "+telefono+"\n"+
-                                    "INDIRIZZO: "+residenza+"\n\n"));
+        document.add(new Paragraph("CODICE FISCALE:  "+paziente+"\n"+
+                                    "COGNOME E NOME:  "+nome+"\n"+
+                                    "INDIRIZZO MAIL:  "+email+"\n"+
+                                    "NUMERO TELEFONICO:  "+telefono+"\n"+
+                                    "INDIRIZZO:  "+residenza+"\n\n"));
 
         Font fontVisita=new Font(FontFamily.HELVETICA, 12, Font.BOLD);
         Paragraph visita=new Paragraph("Visita effettuata nel reparto: "+reparto+"   in data: "+data+"   alle ore: "+ora+"\n\n",fontVisita);
