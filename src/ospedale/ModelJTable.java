@@ -544,10 +544,11 @@ public class ModelJTable extends JFrame{
                    ris=db.eseguiAggiornamento(SQL);
                     System.out.println(ris);
                     popolaTable("select * from prenotazioni where priorita='1';",6);
+                    model2.setRowCount(0);
                 }
                
                 db.disconnetti();
-                model2.setRowCount(0);
+                
                 break;
         }
     }
